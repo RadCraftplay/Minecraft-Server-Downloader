@@ -28,7 +28,7 @@ using System.Windows.Forms;
 
 namespace Minecraft_Version_Downloader
 {
-    public partial class MainForm : MetroForm
+	public partial class MainForm : MetroForm
 	{
 		WebClient client = new WebClient();
 
