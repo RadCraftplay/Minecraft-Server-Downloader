@@ -44,9 +44,9 @@ namespace Minecraft_Version_Downloader
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-        }
+			client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+			client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+		}
 
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
