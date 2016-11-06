@@ -86,7 +86,7 @@ namespace Minecraft_Version_Downloader
 		private void downloadButton_Click(object sender, EventArgs e)
 		{
 			refreshButton.Enabled = false;
-			downloadButton.Enabled = false;
+			//downloadButton.Enabled = false;
 			metroListView1.Enabled = false;
 
 			if (metroListView1.SelectedItems.Count == 0)
@@ -99,18 +99,30 @@ namespace Minecraft_Version_Downloader
 				if (sfd.ShowDialog() == DialogResult.OK)
 				{
 					string Url = versionServerUrl(metroListView1.SelectedItems[0].Text);
+					downloadButton.Text = "Cancel";
+					downloadButton.Click -= downloadButton_Click;
+					downloadButton.Click += cancelButton_Click;
 					client.DownloadFileAsync(new Uri(Url), sfd.FileName);
 				}
 			}
+		}
+
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			client.CancelAsync();
 		}
 
 		void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
 		{
 			MetroMessageBox.Show(this, "Downloading finished!");
 
+			downloadButton.Text = "Download";
+			downloadButton.Click += downloadButton_Click;
+			downloadButton.Click -= cancelButton_Click;
+
 			metroProgressBar1.Value = 0;
 			refreshButton.Enabled = true;
-			downloadButton.Enabled = true;
+			//downloadButton.Enabled = true;
 			metroListView1.Enabled = true;
 		}
 
