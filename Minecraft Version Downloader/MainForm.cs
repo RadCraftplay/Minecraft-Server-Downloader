@@ -85,14 +85,14 @@ namespace Minecraft_Version_Downloader
 
 		private void downloadButton_Click(object sender, EventArgs e)
 		{
-			refreshButton.Enabled = false;
-			//downloadButton.Enabled = false;
-			metroListView1.Enabled = false;
-
 			if (metroListView1.SelectedItems.Count == 0)
 				MessageBox.Show("Nothing selected!");
 			else
 			{
+				refreshButton.Enabled = false;
+				//downloadButton.Enabled = false;
+				metroListView1.Enabled = false;
+
 				SaveFileDialog sfd = new SaveFileDialog();
 				sfd.Filter = "Java executable|*.jar";
 				sfd.FileName = "minecraft_server";
