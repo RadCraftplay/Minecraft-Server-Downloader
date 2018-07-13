@@ -28,47 +28,48 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.dlProgressBar = new MetroFramework.Controls.MetroProgressBar();
+            this.downloadInfoLabel = new MetroFramework.Controls.MetroLabel();
+            this.cancelButton = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
-            // metroProgressBar1
+            // dlProgressBar
             // 
-            this.metroProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dlProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroProgressBar1.Location = new System.Drawing.Point(23, 84);
-            this.metroProgressBar1.Name = "metroProgressBar1";
-            this.metroProgressBar1.Size = new System.Drawing.Size(487, 23);
-            this.metroProgressBar1.TabIndex = 0;
+            this.dlProgressBar.Location = new System.Drawing.Point(23, 84);
+            this.dlProgressBar.Name = "dlProgressBar";
+            this.dlProgressBar.ProgressBarStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.dlProgressBar.Size = new System.Drawing.Size(487, 23);
+            this.dlProgressBar.TabIndex = 0;
             // 
-            // metroLabel1
+            // downloadInfoLabel
             // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(23, 110);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(135, 20);
-            this.metroLabel1.TabIndex = 1;
-            this.metroLabel1.Text = "Downloading x of y...";
+            this.downloadInfoLabel.AutoSize = true;
+            this.downloadInfoLabel.Location = new System.Drawing.Point(23, 110);
+            this.downloadInfoLabel.Name = "downloadInfoLabel";
+            this.downloadInfoLabel.Size = new System.Drawing.Size(190, 20);
+            this.downloadInfoLabel.TabIndex = 1;
+            this.downloadInfoLabel.Text = "Downloading list of versions...";
             // 
-            // metroButton1
+            // cancelButton
             // 
-            this.metroButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroButton1.Location = new System.Drawing.Point(435, 155);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(75, 23);
-            this.metroButton1.TabIndex = 2;
-            this.metroButton1.Text = "Cancel";
-            this.metroButton1.UseSelectable = true;
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.Location = new System.Drawing.Point(435, 155);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 2;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseSelectable = true;
             // 
             // DownloadVersionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 201);
-            this.Controls.Add(this.metroButton1);
-            this.Controls.Add(this.metroLabel1);
-            this.Controls.Add(this.metroProgressBar1);
+            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.downloadInfoLabel);
+            this.Controls.Add(this.dlProgressBar);
             this.Name = "DownloadVersionsDialog";
             this.Text = "Fetching version list...";
             this.ResumeLayout(false);
@@ -78,8 +79,8 @@
 
         #endregion
 
-        private MetroFramework.Controls.MetroProgressBar metroProgressBar1;
-        private MetroFramework.Controls.MetroLabel metroLabel1;
-        private MetroFramework.Controls.MetroButton metroButton1;
+        private MetroFramework.Controls.MetroProgressBar dlProgressBar;
+        private MetroFramework.Controls.MetroLabel downloadInfoLabel;
+        private MetroFramework.Controls.MetroButton cancelButton;
     }
 }
