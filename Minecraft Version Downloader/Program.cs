@@ -21,7 +21,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Minecraft_Version_Downloader
+namespace Minecraft_Server_Downloader
 {
 	static class Program
 	{

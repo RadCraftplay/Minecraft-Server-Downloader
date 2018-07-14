@@ -61,17 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloseReason.cs" />
     <Compile Include="DownloadVersionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DownloadVersionsDialog.Designer.cs">
       <DependentUpon>DownloadVersionsDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -81,11 +76,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structures\VersionInfoFile.cs" />
+    <Compile Include="Structures\VersionListFile.cs" />
     <EmbeddedResource Include="DownloadVersionsDialog.resx">
       <DependentUpon>DownloadVersionsDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

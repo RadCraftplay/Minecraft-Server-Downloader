@@ -18,7 +18,7 @@
 
 	Email: radcraftplay2@gmail.com
 */
-namespace Minecraft_Version_Downloader
+namespace Minecraft_Server_Downloader
 {
     partial class MainForm
     {
