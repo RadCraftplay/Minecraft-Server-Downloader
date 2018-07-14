@@ -61,7 +61,7 @@ namespace Minecraft_Server_Downloader
 		/// <summary>
 		/// Reason of closing the window
 		/// </summary>
-		public CloseReason closeReason;
+		public CloseReason closeReason = CloseReason.UserAction;
 
 		#endregion
 
@@ -77,15 +77,17 @@ namespace Minecraft_Server_Downloader
 
 		private void cancelButton_Click(object sender, EventArgs e)
 		{
-			if (downloadThread != null && downloadThread.IsAlive)
-				downloadThread.Abort();
+            if (downloadThread != null && downloadThread.IsAlive)
+            {
+                downloadThread.Abort();
+                Close();
+            }
 		}
 
 		private void DownloadVersionsDialog_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			// Kill thread downloading files and tell parent that window have been closed by user
 			downloadThread.Abort();
-			closeReason = CloseReason.UserAction;
 		}
 
 		#endregion
