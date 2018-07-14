@@ -61,6 +61,7 @@
             this.cancelButton.TabIndex = 2;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseSelectable = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // DownloadVersionsDialog
             // 
@@ -72,6 +73,7 @@
             this.Controls.Add(this.dlProgressBar);
             this.Name = "DownloadVersionsDialog";
             this.Text = "Fetching version list...";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DownloadVersionsDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
