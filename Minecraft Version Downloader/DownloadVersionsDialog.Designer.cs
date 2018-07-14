@@ -92,7 +92,7 @@ namespace Minecraft_Server_Downloader
             this.Controls.Add(this.downloadInfoLabel);
             this.Controls.Add(this.dlProgressBar);
             this.Name = "DownloadVersionsDialog";
-            this.Text = "Fetching version list...";
+            this.Text = "Fetching list of versions...";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DownloadVersionsDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
