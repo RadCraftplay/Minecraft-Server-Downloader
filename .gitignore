@@ -247,4 +247,5 @@ ModelManifest.xml
 # Setup files
 setup-files/*.bmp
 setup-files/*.exe
+setup-files/*.zip
 setup_temp.iss
