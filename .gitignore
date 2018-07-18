@@ -243,3 +243,8 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Setup files
+setup-files/*.bmp
+setup-files/*.exe
+setup_temp.iss
