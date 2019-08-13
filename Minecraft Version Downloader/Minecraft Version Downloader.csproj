@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="CloseReason.cs" />
     <Compile Include="Core\Storage\ILocalStorage.cs" />
+    <Compile Include="Core\Storage\JsonStorage.cs" />
     <Compile Include="Core\Storage\TextStorage.cs" />
     <Compile Include="DownloadVersionsDialog.cs">
       <SubType>Form</SubType>
