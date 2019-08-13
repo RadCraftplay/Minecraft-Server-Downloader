@@ -20,6 +20,7 @@
 */
 using MetroFramework;
 using MetroFramework.Forms;
+using Minecraft_Server_Downloader.Structures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -98,13 +99,13 @@ namespace Minecraft_Server_Downloader
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    string Url = (string)metroListView1.SelectedItems[0].Tag;
+                    VersionInfoFile info = (VersionInfoFile)metroListView1.SelectedItems[0].Tag;
 
                     downloadButton.Text = "Cancel";
                     downloadButton.Click -= downloadButton_Click;
                     downloadButton.Click += cancelButton_Click;
 
-                    client.DownloadFileAsync(new Uri(Url), sfd.FileName);
+                    client.DownloadFileAsync(new Uri(info.downloads.server.url), sfd.FileName);
                 }
             }
         }
@@ -138,7 +139,7 @@ namespace Minecraft_Server_Downloader
             {
                 foreach (Structures.VersionInfoFile version in versions)
                 {
-                    w.WriteLine($"{version.id}|{version.downloads.server.url}");
+                    w.WriteLine($"{version.id}|{version.downloads.server.url}|{version.type}");
                 }
             }
         }
@@ -171,11 +172,28 @@ namespace Minecraft_Server_Downloader
                     // Add menu item
                     metroListView1.Items.Add(new ListViewItem(info[0])
                     {
-                        Tag = info[1]
+                        Tag = CreateVersionTag(info)
                     });
 
                 }
             }
+        }
+
+        private VersionInfoFile CreateVersionTag(string[] unparsedInfo)
+        {
+            return new VersionInfoFile()
+            {
+                id = unparsedInfo[0],
+                type = unparsedInfo.Length >= 3 ? unparsedInfo[2] : "unknown",
+                downloads = new VersionInfoFile.MinecraftDownloads()
+                {
+                    server = new VersionInfoFile.MinecraftDownloads.MinecraftDownloadInfo()
+                    {
+                        size = -1,
+                        url = unparsedInfo[1]
+                    }
+                }
+            };
         }
 
         #endregion
