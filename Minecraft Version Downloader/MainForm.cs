@@ -240,11 +240,6 @@ namespace Minecraft_Server_Downloader
         private void FilterCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             List<string> selectedVersions = new List<string>();
-            string[] mainVersionTypes = new string[]
-            {
-                "release",
-                "snapshot"
-            };
             
             foreach (Control control in serverVersionFiltersGroupBox.Controls)
             {
@@ -260,7 +255,6 @@ namespace Minecraft_Server_Downloader
 
             var lvItems = from version in serverVersions
                           where selectedVersions.Contains(version.type)
-                          //&& otherCheckBox.Checked ? !mainVersionTypes.Contains(version.type) : true
                           select CreateListViewItem(version);
 
             metroListView1.Clear();
