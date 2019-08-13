@@ -20,6 +20,7 @@
 */
 using MetroFramework;
 using MetroFramework.Forms;
+using Minecraft_Server_Downloader.Core.Storage;
 using Minecraft_Server_Downloader.Structures;
 using System;
 using System.Collections.Generic;
@@ -50,11 +51,14 @@ namespace Minecraft_Server_Downloader
         /// </summary>
         private List<VersionInfoFile> serverVersions = new List<VersionInfoFile>();
 
+        private readonly ILocalStorage versionStorage;
+
         #endregion
 
         public MainForm()
 		{
 			InitializeComponent();
+            versionStorage = new TextStorage(VersionListFilePath);
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
@@ -141,13 +145,7 @@ namespace Minecraft_Server_Downloader
         /// </summary>
         void SaveVersionListFile(List<Structures.VersionInfoFile> versions)
         {
-            using (TextWriter w = new StreamWriter(VersionListFilePath))
-            {
-                foreach (Structures.VersionInfoFile version in versions)
-                {
-                    w.WriteLine($"{version.id}|{version.downloads.server.url}|{version.type}");
-                }
-            }
+            versionStorage.Save(versions);
         }
 
         /// <summary>
@@ -162,24 +160,10 @@ namespace Minecraft_Server_Downloader
             metroListView1.Items.Clear();
             serverVersions.Clear();
 
-            // Read file
-            using (TextReader r = new StreamReader(VersionListFilePath))
+            foreach (VersionInfoFile versionFile in versionStorage.Load())
             {
-                while (true)
-                {
-                    string line = r.ReadLine();
-
-                    // If line is empty, break loop
-                    if (line == null)
-                        break;
-
-                    // Read server info
-                    string[] info = line.Split('|');
-                    VersionInfoFile versionInfo = ParseVersionInfo(info);
-
-                    AddVersionToListView(versionInfo);
-                    serverVersions.Add(versionInfo);
-                }
+                AddVersionToListView(versionFile);
+                serverVersions.Add(versionFile);
             }
         }
 
