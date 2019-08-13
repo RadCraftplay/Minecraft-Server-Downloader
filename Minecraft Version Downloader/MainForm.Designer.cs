@@ -72,7 +72,7 @@ namespace Minecraft_Server_Downloader
             this.metroListView1.MultiSelect = false;
             this.metroListView1.Name = "metroListView1";
             this.metroListView1.OwnerDraw = true;
-            this.metroListView1.Size = new System.Drawing.Size(401, 339);
+            this.metroListView1.Size = new System.Drawing.Size(401, 345);
             this.metroListView1.TabIndex = 0;
             this.metroListView1.UseCompatibleStateImageBehavior = false;
             this.metroListView1.UseSelectable = true;
@@ -81,7 +81,7 @@ namespace Minecraft_Server_Downloader
             // refreshButton
             // 
             this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.refreshButton.Location = new System.Drawing.Point(32, 518);
+            this.refreshButton.Location = new System.Drawing.Point(32, 524);
             this.refreshButton.Margin = new System.Windows.Forms.Padding(4);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(100, 28);
@@ -93,7 +93,7 @@ namespace Minecraft_Server_Downloader
             // downloadButton
             // 
             this.downloadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadButton.Location = new System.Drawing.Point(333, 518);
+            this.downloadButton.Location = new System.Drawing.Point(333, 524);
             this.downloadButton.Margin = new System.Windows.Forms.Padding(4);
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.Size = new System.Drawing.Size(100, 28);
@@ -106,7 +106,7 @@ namespace Minecraft_Server_Downloader
             // 
             this.metroProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroProgressBar1.Location = new System.Drawing.Point(32, 482);
+            this.metroProgressBar1.Location = new System.Drawing.Point(32, 488);
             this.metroProgressBar1.Margin = new System.Windows.Forms.Padding(4);
             this.metroProgressBar1.Name = "metroProgressBar1";
             this.metroProgressBar1.Size = new System.Drawing.Size(401, 28);
@@ -119,7 +119,7 @@ namespace Minecraft_Server_Downloader
             this.serverVersionFiltersGroupBox.Controls.Add(this.otherCheckBox);
             this.serverVersionFiltersGroupBox.Controls.Add(this.snapshotCheckBox);
             this.serverVersionFiltersGroupBox.Controls.Add(this.releaseCheckBox);
-            this.serverVersionFiltersGroupBox.Location = new System.Drawing.Point(32, 425);
+            this.serverVersionFiltersGroupBox.Location = new System.Drawing.Point(32, 431);
             this.serverVersionFiltersGroupBox.Name = "serverVersionFiltersGroupBox";
             this.serverVersionFiltersGroupBox.Size = new System.Drawing.Size(400, 50);
             this.serverVersionFiltersGroupBox.TabIndex = 5;
@@ -172,7 +172,7 @@ namespace Minecraft_Server_Downloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 575);
+            this.ClientSize = new System.Drawing.Size(464, 581);
             this.Controls.Add(this.serverVersionFiltersGroupBox);
             this.Controls.Add(this.metroProgressBar1);
             this.Controls.Add(this.downloadButton);

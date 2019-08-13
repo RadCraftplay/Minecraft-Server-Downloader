@@ -250,7 +250,7 @@ namespace Minecraft_Server_Downloader
             {
                 if (control is CheckBox checkBox)
                 {
-                    if (checkBox.Tag == null)
+                    if (checkBox.Tag == null || checkBox.Checked == false)
                         continue;
 
                     string selectedType = (string)checkBox.Tag;
