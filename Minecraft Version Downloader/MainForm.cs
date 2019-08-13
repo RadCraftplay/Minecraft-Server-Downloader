@@ -20,10 +20,12 @@
 */
 using MetroFramework;
 using MetroFramework.Forms;
+using Minecraft_Server_Downloader.Structures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
@@ -42,6 +44,11 @@ namespace Minecraft_Server_Downloader
         /// File containing list of Minecraft server versions
         /// </summary>
         string VersionListFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Distroir", "Minecraft Version Downloader", "server_versions.txt");
+
+        /// <summary>
+        /// Full, unfiltered list of server versions
+        /// </summary>
+        private List<VersionInfoFile> serverVersions = new List<VersionInfoFile>();
 
         #endregion
 
@@ -98,13 +105,13 @@ namespace Minecraft_Server_Downloader
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    string Url = (string)metroListView1.SelectedItems[0].Tag;
+                    VersionInfoFile info = (VersionInfoFile)metroListView1.SelectedItems[0].Tag;
 
                     downloadButton.Text = "Cancel";
                     downloadButton.Click -= downloadButton_Click;
                     downloadButton.Click += cancelButton_Click;
 
-                    client.DownloadFileAsync(new Uri(Url), sfd.FileName);
+                    client.DownloadFileAsync(new Uri(info.downloads.server.url), sfd.FileName);
                 }
             }
         }
@@ -138,7 +145,7 @@ namespace Minecraft_Server_Downloader
             {
                 foreach (Structures.VersionInfoFile version in versions)
                 {
-                    w.WriteLine($"{version.id}|{version.downloads.server.url}");
+                    w.WriteLine($"{version.id}|{version.downloads.server.url}|{version.type}");
                 }
             }
         }
@@ -151,8 +158,9 @@ namespace Minecraft_Server_Downloader
             if (!File.Exists(VersionListFilePath))
                 return;
 
-            // Clear list
+            // Clear lists
             metroListView1.Items.Clear();
+            serverVersions.Clear();
 
             // Read file
             using (TextReader r = new StreamReader(VersionListFilePath))
@@ -167,15 +175,42 @@ namespace Minecraft_Server_Downloader
 
                     // Read server info
                     string[] info = line.Split('|');
+                    VersionInfoFile versionInfo = ParseVersionInfo(info);
 
-                    // Add menu item
-                    metroListView1.Items.Add(new ListViewItem(info[0])
-                    {
-                        Tag = info[1]
-                    });
-
+                    AddVersionToListView(versionInfo);
+                    serverVersions.Add(versionInfo);
                 }
             }
+        }
+
+        private void AddVersionToListView(VersionInfoFile info)
+        {
+            metroListView1.Items.Add(CreateListViewItem(info));
+        }
+
+        private ListViewItem CreateListViewItem(VersionInfoFile info)
+        {
+            return new ListViewItem(info.id)
+            {
+                Tag = info
+            };
+        }
+
+        private VersionInfoFile ParseVersionInfo(string[] unparsedInfo)
+        {
+            return new VersionInfoFile()
+            {
+                id = unparsedInfo[0],
+                type = unparsedInfo.Length >= 3 ? unparsedInfo[2] : "unknown",
+                downloads = new VersionInfoFile.MinecraftDownloads()
+                {
+                    server = new VersionInfoFile.MinecraftDownloads.MinecraftDownloadInfo()
+                    {
+                        size = -1,
+                        url = unparsedInfo[1]
+                    }
+                }
+            };
         }
 
         #endregion
@@ -201,5 +236,32 @@ namespace Minecraft_Server_Downloader
 		}
 
         #endregion
+
+        private void FilterCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            List<string> selectedVersions = new List<string>();
+            
+            foreach (Control control in serverVersionFiltersGroupBox.Controls)
+            {
+                if (control is CheckBox checkBox)
+                {
+                    if (checkBox.Tag == null || checkBox.Checked == false)
+                        continue;
+
+                    string selectedType = (string)checkBox.Tag;
+                    selectedVersions.Add(selectedType);
+                }
+            }
+
+            var lvItems = from version in serverVersions
+                          where selectedVersions.Contains(version.type)
+                          select CreateListViewItem(version);
+
+            metroListView1.Clear();
+            foreach (var item in lvItems)
+            {
+                metroListView1.Items.Add(item);
+            }
+        }
     }
 }

@@ -39,6 +39,7 @@ namespace Minecraft_Server_Downloader.Structures
         }
 
         public string id;
+        public string type;
         public MinecraftDownloads downloads;
     }
 }
