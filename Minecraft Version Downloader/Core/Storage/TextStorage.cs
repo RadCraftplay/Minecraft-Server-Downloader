@@ -10,7 +10,7 @@ namespace Minecraft_Server_Downloader.Core.Storage
 {
     public class TextStorage : ILocalStorage
     {
-        private string _filename;
+        private readonly string _filename;
 
         public TextStorage(string filename)
         {
