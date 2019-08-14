@@ -73,12 +73,12 @@ namespace Minecraft_Server_Downloader
 			var d = new DownloadVersionsDialog();
 			d.ShowDialog();
 
-			if (d.closeReason == CloseReason.Error)
+			if (d.DialogCloseReason == CloseReason.Error)
 			{
 				// Some kind of an error
 				MessageBox.Show("Unable to download required files probably due to network error", "Minecraft Server Downloader", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			else if (d.closeReason == CloseReason.DownloadingFinished)
+			else if (d.DialogCloseReason == CloseReason.DownloadingFinished)
 			{
                 // Save version list
                 SaveVersionListFile(d.serverVersions);

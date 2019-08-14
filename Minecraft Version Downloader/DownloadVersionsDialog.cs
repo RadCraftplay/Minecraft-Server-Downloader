@@ -21,11 +21,8 @@
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Net;
@@ -34,7 +31,7 @@ using Newtonsoft.Json;
 
 namespace Minecraft_Server_Downloader
 {
-	public partial class DownloadVersionsDialog : MetroForm
+    public partial class DownloadVersionsDialog : MetroForm
 	{
 		#region Delegates
 
@@ -53,15 +50,15 @@ namespace Minecraft_Server_Downloader
 		/// <summary>
 		/// Thread in which version info is downloaded
 		/// </summary>
-		Thread downloadThread;
+		private readonly Thread downloadThread;
 		/// <summary>
 		/// List of available server versions
 		/// </summary>
-		public List<VersionInfoFile> serverVersions = new List<VersionInfoFile>();
+		public List<VersionInfoFile> serverVersions { get; } = new List<VersionInfoFile>();
 		/// <summary>
 		/// Reason of closing the window
 		/// </summary>
-		public CloseReason closeReason = CloseReason.UserAction;
+		public CloseReason DialogCloseReason { get; private set; } = CloseReason.UserAction;
 
 		#endregion
 
@@ -69,9 +66,9 @@ namespace Minecraft_Server_Downloader
 		{
 			InitializeComponent();
 
-			// Create thread that will download required files
-			CreateThread();
-		}
+            downloadThread = new Thread(DownloadInfo);
+            downloadThread.Start();
+        }
 
 		#region Control events
 
@@ -93,16 +90,6 @@ namespace Minecraft_Server_Downloader
 		#endregion
 
 		#region Methods
-
-		/// <summary>
-		/// Creates a background downloader thread
-		/// </summary>
-		void CreateThread()
-		{
-			// Create and run downloadThread
-			downloadThread = new Thread(DownloadInfo);
-			downloadThread.Start();
-		}
 
 		/// <summary>
 		/// Processes version list file
@@ -145,7 +132,7 @@ namespace Minecraft_Server_Downloader
             catch
             {
                 // Error - Close window
-                closeReason = CloseReason.Error;
+                DialogCloseReason = CloseReason.Error;
                 CloseWindow();
 
                 // Abort thread
@@ -173,7 +160,7 @@ namespace Minecraft_Server_Downloader
 				catch
 				{
                     //Close window
-					closeReason = CloseReason.Error;
+					DialogCloseReason = CloseReason.Error;
 					CloseWindow();
 
                     //Abort thread
@@ -182,7 +169,7 @@ namespace Minecraft_Server_Downloader
 			}
 
 			// Close window
-			closeReason = CloseReason.DownloadingFinished;
+			DialogCloseReason = CloseReason.DownloadingFinished;
 			CloseWindow();
 		}
 
