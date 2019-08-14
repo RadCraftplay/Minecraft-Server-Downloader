@@ -61,13 +61,7 @@ namespace Minecraft_Server_Downloader
             versionStorage = new TextStorage(VersionListFilePath);
 		}
 
-		private void MainForm_Load(object sender, EventArgs e)
-		{
-			client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-			client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-
-            LoadVersionListFile();
-		}
+        #region Events
 
         #region Button events
 
@@ -123,6 +117,43 @@ namespace Minecraft_Server_Downloader
         private void cancelButton_Click(object sender, EventArgs e)
         {
             client.CancelAsync();
+        }
+
+        #endregion
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+
+            LoadVersionListFile();
+        }
+
+        private void FilterCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            List<string> selectedVersions = new List<string>();
+
+            foreach (Control control in serverVersionFiltersGroupBox.Controls)
+            {
+                if (control is CheckBox checkBox)
+                {
+                    if (checkBox.Tag == null || checkBox.Checked == false)
+                        continue;
+
+                    string selectedType = (string)checkBox.Tag;
+                    selectedVersions.Add(selectedType);
+                }
+            }
+
+            var lvItems = from version in serverVersions
+                          where selectedVersions.Contains(version.type)
+                          select CreateListViewItem(version);
+
+            metroListView1.Clear();
+            foreach (var item in lvItems)
+            {
+                metroListView1.Items.Add(item);
+            }
         }
 
         #endregion
@@ -220,32 +251,5 @@ namespace Minecraft_Server_Downloader
 		}
 
         #endregion
-
-        private void FilterCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            List<string> selectedVersions = new List<string>();
-            
-            foreach (Control control in serverVersionFiltersGroupBox.Controls)
-            {
-                if (control is CheckBox checkBox)
-                {
-                    if (checkBox.Tag == null || checkBox.Checked == false)
-                        continue;
-
-                    string selectedType = (string)checkBox.Tag;
-                    selectedVersions.Add(selectedType);
-                }
-            }
-
-            var lvItems = from version in serverVersions
-                          where selectedVersions.Contains(version.type)
-                          select CreateListViewItem(version);
-
-            metroListView1.Clear();
-            foreach (var item in lvItems)
-            {
-                metroListView1.Items.Add(item);
-            }
-        }
     }
 }
