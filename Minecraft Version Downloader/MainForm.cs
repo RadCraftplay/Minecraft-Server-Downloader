@@ -176,6 +176,7 @@ namespace Minecraft_Server_Downloader
         /// </summary>
         void SaveVersionListFile(List<Structures.VersionInfoFile> versions)
         {
+            checkDirectories();
             versionStorage.Save(versions);
         }
 
