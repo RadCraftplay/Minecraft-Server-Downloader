@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Minecraft Server Downloader"
-#define MyAppVersion "2.0"
+#define MyAppVersion "2.0.1"
 #define MyAppPublisher "Distroir"
 #define MyAppURL "http://gamebanana.com/tools/5990"
 #define MyAppExeName "Minecraft Server Downloader.exe"
