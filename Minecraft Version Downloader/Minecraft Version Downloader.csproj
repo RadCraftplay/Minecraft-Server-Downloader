@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="CloseReason.cs" />
     <Compile Include="Core\Downloaders\AsyncDownloadProgress.cs" />
+    <Compile Include="Core\Downloaders\AsyncVersionListDownloader.cs" />
     <Compile Include="Core\Storage\ILocalStorage.cs" />
     <Compile Include="Core\Storage\JsonStorage.cs" />
     <Compile Include="Core\Storage\TextStorage.cs" />
