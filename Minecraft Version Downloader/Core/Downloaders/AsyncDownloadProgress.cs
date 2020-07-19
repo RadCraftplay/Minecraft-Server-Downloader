@@ -8,13 +8,13 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
 {
     public class AsyncDownloadProgress
     {
-        public AsyncDownloadProgress(int completed, int all)
+        public AsyncDownloadProgress(int current, int all)
         {
-            Completed = completed;
+            Current = current;
             All = all;
         }
 
-        public int Completed { get; }
+        public int Current { get; }
         public int All { get; }
     }
 }

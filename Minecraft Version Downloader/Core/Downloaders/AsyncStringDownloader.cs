@@ -24,17 +24,17 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
         {
             var queue = downloadQueue as string[] ?? downloadQueue.ToArray();
             var downloadedVersions = new List<string>();
-            int completed = 0;
+            int current = 0;
 
             foreach (var url in queue)
             {
+                progress.Report(new AsyncDownloadProgress(current++, queue.Count()));
+
                 if (_token.IsCancellationRequested)
                     break;
 
                 var downloadedString = await _client.GetStringAsync(url);
                 downloadedVersions.Add(downloadedString);
-
-                progress.Report(new AsyncDownloadProgress(++completed, queue.Count()));
             }
 
             return ImmutableArray.CreateRange(downloadedVersions);
