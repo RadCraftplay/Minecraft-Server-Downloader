@@ -21,7 +21,7 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
             _client = new HttpClient();
         }
 
-        public async Task<ImmutableList<string>> DownloadList(IProgress<AsyncDownloadProgress> progress)
+        public async Task<ImmutableArray<string>> DownloadList(IProgress<AsyncDownloadProgress> progress)
         {
             var downloadedVersions = new List<string>();
             int completed = 0;
@@ -37,7 +37,7 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
                 progress.Report(new AsyncDownloadProgress(++completed, _downloadQueue.Count()));
             }
 
-            return ImmutableList.CreateRange(downloadedVersions);
+            return ImmutableArray.CreateRange(downloadedVersions);
         }
     }
 }
