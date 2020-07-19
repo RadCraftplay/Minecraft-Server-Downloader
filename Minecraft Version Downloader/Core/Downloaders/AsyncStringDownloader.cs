@@ -19,6 +19,7 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
         {
             _downloadQueue = ImmutableArray.CreateRange(downloadQueue);
             _client = new HttpClient();
+            _token = token;
         }
 
         public async Task<ImmutableArray<string>> DownloadList(IProgress<AsyncDownloadProgress> progress)
