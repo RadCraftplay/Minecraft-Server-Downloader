@@ -11,23 +11,22 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
 {
     public class AsyncStringDownloader
     {
-        private readonly ImmutableArray<string> _downloadQueue;
         private readonly HttpClient _client;
         private readonly CancellationToken _token;
 
-        public AsyncStringDownloader(IEnumerable<string> downloadQueue, CancellationToken token)
+        public AsyncStringDownloader(CancellationToken token)
         {
-            _downloadQueue = ImmutableArray.CreateRange(downloadQueue);
             _client = new HttpClient();
             _token = token;
         }
 
-        public async Task<ImmutableArray<string>> DownloadList(IProgress<AsyncDownloadProgress> progress)
+        public async Task<ImmutableArray<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
         {
+            var queue = downloadQueue as string[] ?? downloadQueue.ToArray();
             var downloadedVersions = new List<string>();
             int completed = 0;
 
-            foreach (var url in _downloadQueue)
+            foreach (var url in queue)
             {
                 if (_token.IsCancellationRequested)
                     break;
@@ -35,10 +34,15 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
                 var downloadedString = await _client.GetStringAsync(url);
                 downloadedVersions.Add(downloadedString);
 
-                progress.Report(new AsyncDownloadProgress(++completed, _downloadQueue.Count()));
+                progress.Report(new AsyncDownloadProgress(++completed, queue.Count()));
             }
 
             return ImmutableArray.CreateRange(downloadedVersions);
+        }
+
+        public async Task<string> DownloadString(string url)
+        {
+            return await _client.GetStringAsync(url);
         }
     }
 }
