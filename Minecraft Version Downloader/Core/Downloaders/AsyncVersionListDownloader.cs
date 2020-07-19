@@ -21,7 +21,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
             _downloader = new AsyncStringDownloader(token);
         }
 
-        private async Task<ImmutableArray<VersionInfoFile>> DownloadVersions(IProgress<AsyncDownloadProgress> progress)
+        public async Task<ImmutableArray<VersionInfoFile>> DownloadVersions(IProgress<AsyncDownloadProgress> progress)
         {
             var downloadQueue = await GetListOfVersions();
             var fileContents = await _downloader.DownloadList(downloadQueue, progress);
@@ -39,17 +39,18 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
         private IEnumerable<VersionInfoFile> GetVersions(ImmutableArray<string> fileContents)
         {
             foreach (var content in fileContents)
-                yield return ProcessVersionInfo(content);
+            {
+                var info = ProcessVersionInfo(content);
+                if (info.downloads.server == null)
+                    continue;
+
+                yield return info;
+            }
         }
 
         private VersionInfoFile ProcessVersionInfo(string versionInfoJson)
         {
-            VersionInfoFile f = JsonConvert.DeserializeObject<VersionInfoFile>(versionInfoJson);
-
-            if (f.downloads.server != null)
-                return f;
-            else
-                return null;
+            return JsonConvert.DeserializeObject<VersionInfoFile>(versionInfoJson);
         }
     }
 }
