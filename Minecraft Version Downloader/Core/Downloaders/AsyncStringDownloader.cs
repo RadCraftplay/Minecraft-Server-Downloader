@@ -57,11 +57,18 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
 
         private async Task<string> DownloadStringAndReportProgress(string url, ProgressReporter reporter)
         {
-            var response = await _client.GetAsync(url, _token);
-            var downloadedString = await response.Content.ReadAsStringAsync();
-            reporter.Report();
+            try
+            {
+                var response = await _client.GetAsync(url, _token);
+                var downloadedString = await response.Content.ReadAsStringAsync();
+                reporter.Report();
 
-            return downloadedString;
+                return downloadedString;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<string> DownloadString(string url)
