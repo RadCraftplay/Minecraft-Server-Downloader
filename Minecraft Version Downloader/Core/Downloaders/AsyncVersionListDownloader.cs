@@ -24,7 +24,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Minecraft_Server_Downloader.Core.VersionListDownloaders;
 using Minecraft_Server_Downloader.Structures;
 using Newtonsoft.Json;
 

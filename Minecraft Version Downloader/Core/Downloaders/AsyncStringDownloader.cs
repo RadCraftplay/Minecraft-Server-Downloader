@@ -18,17 +18,17 @@
 
 	Email: radcraftplay2@gmail.com
 */
+
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
-using Minecraft_Server_Downloader.Core.Downloaders;
+using System.Threading.Tasks;
 using Minecraft_Server_Downloader.Utils;
 
-namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
+namespace Minecraft_Server_Downloader.Core.Downloaders
 {
     public class AsyncStringDownloader
     {
