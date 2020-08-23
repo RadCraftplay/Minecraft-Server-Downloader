@@ -57,27 +57,30 @@ namespace Minecraft_Server_Downloader
             // 
             this.dlProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dlProgressBar.Location = new System.Drawing.Point(23, 84);
+            this.dlProgressBar.Location = new System.Drawing.Point(17, 68);
+            this.dlProgressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dlProgressBar.Name = "dlProgressBar";
             this.dlProgressBar.ProgressBarStyle = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.dlProgressBar.Size = new System.Drawing.Size(487, 23);
+            this.dlProgressBar.Size = new System.Drawing.Size(365, 19);
             this.dlProgressBar.TabIndex = 0;
             // 
             // downloadInfoLabel
             // 
             this.downloadInfoLabel.AutoSize = true;
-            this.downloadInfoLabel.Location = new System.Drawing.Point(23, 110);
+            this.downloadInfoLabel.Location = new System.Drawing.Point(17, 89);
+            this.downloadInfoLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.downloadInfoLabel.Name = "downloadInfoLabel";
-            this.downloadInfoLabel.Size = new System.Drawing.Size(190, 20);
+            this.downloadInfoLabel.Size = new System.Drawing.Size(180, 19);
             this.downloadInfoLabel.TabIndex = 1;
             this.downloadInfoLabel.Text = "Downloading list of versions...";
             // 
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.Location = new System.Drawing.Point(435, 155);
+            this.cancelButton.Location = new System.Drawing.Point(326, 126);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.Size = new System.Drawing.Size(56, 19);
             this.cancelButton.TabIndex = 2;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseSelectable = true;
@@ -85,16 +88,19 @@ namespace Minecraft_Server_Downloader
             // 
             // DownloadVersionsDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(533, 201);
+            this.ClientSize = new System.Drawing.Size(400, 163);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.downloadInfoLabel);
             this.Controls.Add(this.dlProgressBar);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "DownloadVersionsDialog";
+            this.Padding = new System.Windows.Forms.Padding(15, 49, 15, 16);
             this.ShowInTaskbar = false;
             this.Text = "Fetching list of versions...";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DownloadVersionsDialog_FormClosing);
+            this.Load += new System.EventHandler(this.DownloadVersionsDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

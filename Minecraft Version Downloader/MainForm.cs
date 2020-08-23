@@ -81,7 +81,7 @@ namespace Minecraft_Server_Downloader
 			else if (d.DialogCloseReason == CloseReason.DownloadingFinished)
 			{
                 // Save version list
-                SaveVersionListFile(d.serverVersions);
+                SaveVersionListFile(d.ServerVersions.ToList());
                 // Reload version list
                 LoadVersionListFile();
 			}

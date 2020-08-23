@@ -1,8 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
+﻿/*
 	This file is part of Minecraft Server Downloader.
 
-	Copyright (C) 2016-2020 Distroir
+	Copyright (C) 2016 Distroir
 
 	Minecraft Server Downloader is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,9 +17,18 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	Email: radcraftplay2@gmail.com
--->
-<packages>
-  <package id="MetroModernUI" version="1.4.0.0" targetFramework="net40-client" />
-  <package id="Newtonsoft.Json" version="11.0.2" targetFramework="net40-client" />
-  <package id="System.Collections.Immutable" version="1.7.1" targetFramework="net45" />
-</packages>
+*/
+namespace Minecraft_Server_Downloader.Core.Downloaders
+{
+    public class AsyncDownloadProgress
+    {
+        public AsyncDownloadProgress(int current, int all)
+        {
+            Current = current;
+            All = all;
+        }
+
+        public int Current { get; }
+        public int All { get; }
+    }
+}
