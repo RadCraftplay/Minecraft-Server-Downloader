@@ -38,6 +38,7 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
         public AsyncStringDownloader(CancellationToken token)
         {
             _client = new HttpClient();
+            _client.Timeout = TimeSpan.FromSeconds(10);
             _token = token;
         }
 
