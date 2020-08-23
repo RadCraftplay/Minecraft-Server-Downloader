@@ -111,6 +111,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures\VersionInfoFile.cs" />
     <Compile Include="Structures\VersionListFile.cs" />
+    <Compile Include="Utils\ProgressReporter.cs" />
     <EmbeddedResource Include="DownloadVersionsDialog.resx">
       <DependentUpon>DownloadVersionsDialog.cs</DependentUpon>
     </EmbeddedResource>

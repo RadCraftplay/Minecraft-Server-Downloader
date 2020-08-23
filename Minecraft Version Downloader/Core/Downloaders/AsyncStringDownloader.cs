@@ -26,6 +26,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using Minecraft_Server_Downloader.Core.Downloaders;
+using Minecraft_Server_Downloader.Utils;
 
 namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
 {
@@ -43,21 +44,23 @@ namespace Minecraft_Server_Downloader.Core.VersionListDownloaders
         public async Task<ImmutableArray<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
         {
             var queue = downloadQueue as string[] ?? downloadQueue.ToArray();
-            var downloadedVersions = new List<string>();
-            int current = 0;
+            var reporter = new ProgressReporter(progress, queue.Length);
+            var tasks = new List<Task<string>>();
 
             foreach (var url in queue)
-            {
-                progress.Report(new AsyncDownloadProgress(current++, queue.Count()));
+                tasks.Add(DownloadStringAndReportProgress(url, reporter));
 
-                if (_token.IsCancellationRequested)
-                    break;
+            var result = await Task.WhenAll(tasks);
+            return ImmutableArray.CreateRange(result);
+        }
 
-                var downloadedString = await _client.GetStringAsync(url);
-                downloadedVersions.Add(downloadedString);
-            }
+        private async Task<string> DownloadStringAndReportProgress(string url, ProgressReporter reporter)
+        {
+            var response = await _client.GetAsync(url, _token);
+            var downloadedString = await response.Content.ReadAsStringAsync();
+            reporter.Report();
 
-            return ImmutableArray.CreateRange(downloadedVersions);
+            return downloadedString;
         }
 
         public async Task<string> DownloadString(string url)
