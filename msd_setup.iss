@@ -36,14 +36,12 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-; 64 bit exe
-Source: "Minecraft Version Downloader\bin\x64\Release\Minecraft Server Downloader.exe"; DestDir: "{app}"; Check: Is64BitInstallMode
-; 32 bit exe
-Source: "Minecraft Version Downloader\bin\Release\Minecraft Server Downloader.exe"; DestDir: "{app}"; Check: not Is64BitInstallMode; Flags: solidbreak
+Source: "Minecraft Version Downloader\bin\x64\Release\Minecraft Server Downloader.exe"; DestDir: "{app}";
 ; Libraries
-Source: "Minecraft Version Downloader\bin\Release\MetroFramework.dll"; DestDir: "{app}";
-Source: "Minecraft Version Downloader\bin\Release\MetroFramework.Fonts.dll"; DestDir: "{app}";
-Source: "Minecraft Version Downloader\bin\Release\Newtonsoft.Json.dll"; DestDir: "{app}";
+Source: "Minecraft Version Downloader\bin\x64\Release\MetroFramework.dll"; DestDir: "{app}";
+Source: "Minecraft Version Downloader\bin\x64\Release\MetroFramework.Fonts.dll"; DestDir: "{app}";
+Source: "Minecraft Version Downloader\bin\x64\Release\Newtonsoft.Json.dll"; DestDir: "{app}";
+Source: "Minecraft Version Downloader\bin\x64\Release\System.Collections.Immutable.dll"; DestDir: "{app}";
 ; License file
 Source: "setup-files\gpl-3.0.txt"; DestDir: "{app}"; Flags: solidbreak
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
