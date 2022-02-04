@@ -66,7 +66,7 @@ namespace Minecraft_Server_Downloader
         {
             try
             {
-                ServerVersions = await _downloader.DownloadVersions(_progress);
+                ServerVersions = await _downloader.DownloadListOfVersions(_progress);
                 DialogCloseReason = CloseReason.DownloadingFinished;
             }
             catch

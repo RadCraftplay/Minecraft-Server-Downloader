@@ -7,6 +7,6 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
 {
     public interface IAsyncVersionListDownloader
     {
-        Task<ImmutableArray<VersionInfoFile>> DownloadVersions(IProgress<AsyncDownloadProgress> progress);
+        Task<ImmutableArray<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress);
     }
 }

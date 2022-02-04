@@ -39,24 +39,24 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
             _downloader = new AsyncStringDownloader(token);
         }
 
-        public async Task<ImmutableArray<VersionInfoFile>> DownloadVersions(IProgress<AsyncDownloadProgress> progress)
+        public async Task<ImmutableArray<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress)
         {
-            var downloadQueue = await GetListOfVersions();
-            var fileContents = await _downloader.DownloadList(downloadQueue, progress);
-            return ImmutableArray.CreateRange(fileContents
-                .Select(ProcessVersionInfo)
+            var versionInfoFileUrls = await GetVersionInfoFileUrls();
+            var versionInfoFileContents = await _downloader.DownloadList(versionInfoFileUrls, progress);
+            return ImmutableArray.CreateRange(versionInfoFileContents
+                .Select(ProcessVersionInfoFile)
                 .Where(info => info.downloads.server != null));
         }
 
-        private async Task<IEnumerable<string>> GetListOfVersions()
+        private async Task<IEnumerable<string>> GetVersionInfoFileUrls()
         {
-            var listFileContents = await _downloader.DownloadString(VERSION_LIST_URL);
-            var versionListFile = JsonConvert.DeserializeObject<VersionListFile>(listFileContents);
-            return versionListFile.versions
+            var versionInfoFileContents = await _downloader.DownloadString(VERSION_LIST_URL);
+            var versionListFileObject = JsonConvert.DeserializeObject<VersionListFile>(versionInfoFileContents);
+            return versionListFileObject.versions
                 .Select(version => version.url);
         }
 
-        private VersionInfoFile ProcessVersionInfo(string versionInfoJson)
+        private VersionInfoFile ProcessVersionInfoFile(string versionInfoJson)
         {
             return JsonConvert.DeserializeObject<VersionInfoFile>(versionInfoJson);
         }
