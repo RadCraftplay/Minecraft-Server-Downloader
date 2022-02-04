@@ -43,7 +43,9 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
         {
             var downloadQueue = await GetListOfVersions();
             var fileContents = await _downloader.DownloadList(downloadQueue, progress);
-            return ImmutableArray.CreateRange(GetVersionsWithServerAvailable(fileContents));
+            return ImmutableArray.CreateRange(fileContents
+                .Select(ProcessVersionInfo)
+                .Where(info => info.downloads.server != null));
         }
 
         private async Task<IEnumerable<string>> GetListOfVersions()
@@ -52,18 +54,6 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
             var versionListFile = JsonConvert.DeserializeObject<VersionListFile>(listFileContents);
             return versionListFile.versions
                 .Select(version => version.url);
-        }
-
-        private IEnumerable<VersionInfoFile> GetVersionsWithServerAvailable(IEnumerable<string> fileContents)
-        {
-            foreach (var content in fileContents)
-            {
-                var info = ProcessVersionInfo(content);
-                if (info.downloads.server == null)
-                    continue;
-
-                yield return info;
-            }
         }
 
         private VersionInfoFile ProcessVersionInfo(string versionInfoJson)
