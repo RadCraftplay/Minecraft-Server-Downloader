@@ -20,7 +20,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.Incremental
             _localVersions = localVersions;
         }
         
-        public async Task<ImmutableArray<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress)
+        public async Task<IEnumerable<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress)
         {
             throw new NotImplementedException();
         }

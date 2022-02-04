@@ -39,13 +39,13 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
             _downloader = new AsyncStringDownloader(token);
         }
 
-        public async Task<ImmutableArray<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress)
+        public async Task<IEnumerable<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress)
         {
             var versionInfoFileUrls = await GetVersionInfoFileUrls();
             var versionInfoFileContents = await _downloader.DownloadList(versionInfoFileUrls, progress);
-            return ImmutableArray.CreateRange(versionInfoFileContents
+            return versionInfoFileContents
                 .Select(ProcessVersionInfoFile)
-                .Where(info => info.downloads.server != null));
+                .Where(info => info.downloads.server != null);
         }
 
         private async Task<IEnumerable<string>> GetVersionInfoFileUrls()

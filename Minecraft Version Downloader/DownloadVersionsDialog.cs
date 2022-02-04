@@ -20,6 +20,7 @@
 */
 using MetroFramework.Forms;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Windows.Forms;
 using System.Threading;
@@ -37,7 +38,7 @@ namespace Minecraft_Server_Downloader
         private readonly CancellationTokenSource _source;
 
 		public CloseReason DialogCloseReason { get; private set; } = CloseReason.UserAction;
-        public ImmutableArray<VersionInfoFile> ServerVersions { get; private set; }
+        public IEnumerable<VersionInfoFile> ServerVersions { get; private set; }
 
         #endregion
 
