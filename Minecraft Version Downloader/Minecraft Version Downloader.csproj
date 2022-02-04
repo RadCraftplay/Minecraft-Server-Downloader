@@ -91,6 +91,8 @@
     <Compile Include="CloseReason.cs" />
     <Compile Include="Core\Downloaders\AsyncDownloadProgress.cs" />
     <Compile Include="Core\Downloaders\AsyncVersionListDownloader.cs" />
+    <Compile Include="Core\Downloaders\IAsyncVersionListDownloader.cs" />
+    <Compile Include="Core\Downloaders\Incremental\IncrementalAsyncVersionListDownloader.cs" />
     <Compile Include="Core\Storage\ILocalStorage.cs" />
     <Compile Include="Core\Storage\JsonStorage.cs" />
     <Compile Include="Core\Storage\TextStorage.cs" />
@@ -144,7 +146,6 @@
   <ItemGroup>
     <Content Include="msd icon.ico" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
