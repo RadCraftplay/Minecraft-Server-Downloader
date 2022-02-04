@@ -18,9 +18,9 @@
 
 	Email: radcraftplay2@gmail.com
 */
+
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +28,7 @@ using Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownloader
 using Minecraft_Server_Downloader.Structures;
 using Newtonsoft.Json;
 
-namespace Minecraft_Server_Downloader.Core.Downloaders
+namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
 {
     public class AsyncVersionListDownloader : IAsyncVersionListDownloader
     {

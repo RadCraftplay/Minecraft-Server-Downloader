@@ -25,6 +25,7 @@ using System.Collections.Immutable;
 using System.Windows.Forms;
 using System.Threading;
 using Minecraft_Server_Downloader.Core.Downloaders;
+using Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders;
 using Minecraft_Server_Downloader.Structures;
 
 namespace Minecraft_Server_Downloader
