@@ -97,6 +97,7 @@
     <Compile Include="Core\Downloaders\VersionListDownloaders\AsyncVersionListDownloader.cs" />
     <Compile Include="Core\Downloaders\VersionListDownloaders\IAsyncVersionListDownloader.cs" />
     <Compile Include="Core\Downloaders\VersionListDownloaders\IncrementalAsyncVersionListDownloader.cs" />
+    <Compile Include="Core\Downloaders\VersionListDownloaders\StandardAsyncVersionListDownloader.cs" />
     <Compile Include="Core\Storage\ILocalStorage.cs" />
     <Compile Include="Core\Storage\JsonStorage.cs" />
     <Compile Include="Core\Storage\TextStorage.cs" />

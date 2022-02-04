@@ -35,10 +35,12 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
 	    private readonly AsyncStringDownloader _downloader;
 	    private readonly IVersionFileListDownloader _versionListFileDownloader;
 
-        public AsyncVersionListDownloader(CancellationToken token)
+        public AsyncVersionListDownloader(
+	        AsyncStringDownloader stringDownloader, 
+	        IVersionFileListDownloader versionFileListDownloader)
         {
-            _downloader = new AsyncStringDownloader(token);
-            _versionListFileDownloader = new StandardVersionFileListDownloader(_downloader);
+            _downloader = stringDownloader;
+            _versionListFileDownloader = versionFileListDownloader;
         }
 
         public async Task<IEnumerable<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress)

@@ -34,7 +34,7 @@ namespace Minecraft_Server_Downloader
 	{
         #region Variables
 
-        private readonly AsyncVersionListDownloader _downloader;
+        private readonly IAsyncVersionListDownloader _downloader;
         private readonly Progress<AsyncDownloadProgress> _progress;
         private readonly CancellationTokenSource _source;
 
@@ -49,7 +49,7 @@ namespace Minecraft_Server_Downloader
 
             ServerVersions = ImmutableArray<VersionInfoFile>.Empty;
             _source = new CancellationTokenSource();
-            _downloader = new AsyncVersionListDownloader(_source.Token);
+            _downloader = new StandardAsyncVersionListDownloader(_source.Token);
             _progress = new Progress<AsyncDownloadProgress>();
             _progress.ProgressChanged += DownloadProgressChanged;
 		}
