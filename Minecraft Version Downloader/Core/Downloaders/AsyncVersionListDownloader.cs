@@ -54,7 +54,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
                 .Select(version => version.url);
         }
 
-        private IEnumerable<VersionInfoFile> GetVersionsWithServerAvailable(ImmutableArray<string> fileContents)
+        private IEnumerable<VersionInfoFile> GetVersionsWithServerAvailable(IEnumerable<string> fileContents)
         {
             foreach (var content in fileContents)
             {

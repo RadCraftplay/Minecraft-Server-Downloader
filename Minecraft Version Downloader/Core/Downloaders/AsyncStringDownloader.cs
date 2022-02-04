@@ -42,7 +42,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
             _token = token;
         }
 
-        public async Task<ImmutableArray<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
+        public async Task<IEnumerable<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
         {
             var queue = downloadQueue as string[] ?? downloadQueue.ToArray();
             var reporter = new ProgressReporter(progress, queue.Length);
@@ -50,9 +50,8 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
 
             foreach (var url in queue)
                 tasks.Add(DownloadStringAndReportProgress(url, reporter));
-
-            var result = await Task.WhenAll(tasks);
-            return ImmutableArray.CreateRange(result);
+            
+            return await Task.WhenAll(tasks);
         }
 
         private async Task<string> DownloadStringAndReportProgress(string url, ProgressReporter reporter)
