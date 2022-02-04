@@ -43,7 +43,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
         {
             var downloadQueue = await GetListOfVersions();
             var fileContents = await _downloader.DownloadList(downloadQueue, progress);
-            return ImmutableArray.CreateRange(GetVersions(fileContents));
+            return ImmutableArray.CreateRange(GetVersionsWithServerAvailable(fileContents));
         }
 
         private async Task<IEnumerable<string>> GetListOfVersions()
@@ -54,7 +54,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
                 .Select(version => version.url);
         }
 
-        private IEnumerable<VersionInfoFile> GetVersions(ImmutableArray<string> fileContents)
+        private IEnumerable<VersionInfoFile> GetVersionsWithServerAvailable(ImmutableArray<string> fileContents)
         {
             foreach (var content in fileContents)
             {
