@@ -93,6 +93,10 @@
     <Compile Include="Core\Downloaders\AsyncVersionListDownloader.cs" />
     <Compile Include="Core\Downloaders\IAsyncVersionListDownloader.cs" />
     <Compile Include="Core\Downloaders\Incremental\IncrementalAsyncVersionListDownloader.cs" />
+    <Compile Include="Core\Downloaders\VersionInfoFileListDownloaders\FilteredVersionListDownloader.cs" />
+    <Compile Include="Core\Downloaders\VersionInfoFileListDownloaders\IncrementalVersionListDownloader.cs" />
+    <Compile Include="Core\Downloaders\VersionInfoFileListDownloaders\IVersionFileListDownloader.cs" />
+    <Compile Include="Core\Downloaders\VersionInfoFileListDownloaders\StandardVersionFileListDownloader.cs" />
     <Compile Include="Core\Storage\ILocalStorage.cs" />
     <Compile Include="Core\Storage\JsonStorage.cs" />
     <Compile Include="Core\Storage\TextStorage.cs" />

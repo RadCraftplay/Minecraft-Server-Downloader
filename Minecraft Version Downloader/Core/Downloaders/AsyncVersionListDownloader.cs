@@ -24,6 +24,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownloaders;
 using Minecraft_Server_Downloader.Structures;
 using Newtonsoft.Json;
 
@@ -31,34 +32,23 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
 {
     public class AsyncVersionListDownloader : IAsyncVersionListDownloader
     {
-        private const string VERSION_LIST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
-        private readonly AsyncStringDownloader _downloader;
+	    private readonly AsyncStringDownloader _downloader;
+	    private readonly IVersionFileListDownloader _versionListFileDownloader;
 
         public AsyncVersionListDownloader(CancellationToken token)
         {
             _downloader = new AsyncStringDownloader(token);
+            _versionListFileDownloader = new StandardVersionFileListDownloader(_downloader);
         }
 
         public async Task<IEnumerable<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress)
         {
-            var versionInfoFileUrls = await GetVersionInfoFileUrls();
+            var versions = await _versionListFileDownloader.GetVersionInfoFileUrls();
+            var versionInfoFileUrls = versions.Select(version => version.url);
             var versionInfoFileContents = await _downloader.DownloadList(versionInfoFileUrls, progress);
             return versionInfoFileContents
-                .Select(ProcessVersionInfoFile)
+                .Select(JsonConvert.DeserializeObject<VersionInfoFile>)
                 .Where(info => info.downloads.server != null);
-        }
-
-        private async Task<IEnumerable<string>> GetVersionInfoFileUrls()
-        {
-            var versionInfoFileContents = await _downloader.DownloadString(VERSION_LIST_URL);
-            var versionListFileObject = JsonConvert.DeserializeObject<VersionListFile>(versionInfoFileContents);
-            return versionListFileObject.versions
-                .Select(version => version.url);
-        }
-
-        private VersionInfoFile ProcessVersionInfoFile(string versionInfoJson)
-        {
-            return JsonConvert.DeserializeObject<VersionInfoFile>(versionInfoJson);
         }
     }
 }
