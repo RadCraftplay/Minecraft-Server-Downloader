@@ -29,7 +29,7 @@ using Newtonsoft.Json;
 
 namespace Minecraft_Server_Downloader.Core.Downloaders
 {
-    public class AsyncVersionListDownloader
+    public class AsyncVersionListDownloader : IAsyncVersionListDownloader
     {
         private const string VERSION_LIST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
         private readonly AsyncStringDownloader _downloader;
