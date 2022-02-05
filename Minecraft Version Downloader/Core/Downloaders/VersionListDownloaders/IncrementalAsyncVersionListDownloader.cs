@@ -13,6 +13,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
     public class IncrementalAsyncVersionListDownloader : IAsyncVersionListDownloader
     {
         private readonly AsyncVersionListDownloader _downloader;
+        private readonly List<VersionInfoFile> _localVersions;
 
         public IncrementalAsyncVersionListDownloader(CancellationToken token, List<VersionInfoFile> localVersions)
         {
@@ -22,11 +23,17 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
                 new IncrementalVersionListDownloader(
                     stringDownloader, 
                     localVersions.Select(version => version.id).ToList()));
+            _localVersions = localVersions;
         }
         
         public async Task<IEnumerable<VersionInfoFile>> DownloadListOfVersions(IProgress<AsyncDownloadProgress> progress)
         {
-            return await _downloader.DownloadListOfVersions(progress);
+            var allVersions = new List<VersionInfoFile>();
+            
+            allVersions.AddRange(await _downloader.DownloadListOfVersions(progress));
+            allVersions.AddRange(_localVersions);
+            
+            return allVersions;
         }
     }
 }
