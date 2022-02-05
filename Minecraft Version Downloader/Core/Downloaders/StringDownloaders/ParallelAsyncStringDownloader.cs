@@ -1,7 +1,7 @@
 ﻿/*
 	This file is part of Minecraft Server Downloader.
 
-	Copyright (C) 2016-2020 Distroir
+	Copyright (C) 2016-2022 Distroir
 
 	Minecraft Server Downloader is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 
 	Email: radcraftplay2@gmail.com
 */
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
