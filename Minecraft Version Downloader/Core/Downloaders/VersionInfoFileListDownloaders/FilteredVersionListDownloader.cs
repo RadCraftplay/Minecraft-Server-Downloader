@@ -13,7 +13,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownlo
         private readonly Func<VersionListFile.MinecraftVersion, bool> _predicate;
 
         public FilteredVersionListDownloader(
-            AsyncStringDownloader downloader, 
+            IAsyncStringDownloader downloader, 
             Func<VersionListFile.MinecraftVersion, bool> predicate)
         {
             _predicate = predicate;

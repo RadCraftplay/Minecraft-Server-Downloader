@@ -9,9 +9,9 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownlo
     public class StandardVersionFileListDownloader : IVersionFileListDownloader
     {
         private const string VERSION_LIST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
-        private readonly AsyncStringDownloader _downloader;
+        private readonly IAsyncStringDownloader _downloader;
 
-        public StandardVersionFileListDownloader(AsyncStringDownloader downloader)
+        public StandardVersionFileListDownloader(IAsyncStringDownloader downloader)
         {
             _downloader = downloader;
         }

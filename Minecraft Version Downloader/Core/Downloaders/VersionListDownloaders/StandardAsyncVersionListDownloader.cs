@@ -14,7 +14,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
 
         public StandardAsyncVersionListDownloader(CancellationToken token)
         {
-            var stringDownloader = new AsyncStringDownloader(token);
+            var stringDownloader = new SequentialAsyncStringDownloader(token);
             _downloader = new AsyncVersionListDownloader(
                 stringDownloader,
                 new StandardVersionFileListDownloader(stringDownloader));

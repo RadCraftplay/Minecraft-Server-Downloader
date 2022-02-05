@@ -33,11 +33,11 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
 {
     public class AsyncVersionListDownloader : IAsyncVersionListDownloader
     {
-	    private readonly AsyncStringDownloader _downloader;
+	    private readonly IAsyncStringDownloader _downloader;
 	    private readonly IVersionFileListDownloader _versionListFileDownloader;
 
         public AsyncVersionListDownloader(
-	        AsyncStringDownloader stringDownloader, 
+	        IAsyncStringDownloader stringDownloader, 
 	        IVersionFileListDownloader versionFileListDownloader)
         {
             _downloader = stringDownloader;
