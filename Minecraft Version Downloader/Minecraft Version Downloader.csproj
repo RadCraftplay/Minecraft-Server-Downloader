@@ -90,7 +90,7 @@
   <ItemGroup>
     <Compile Include="CloseReason.cs" />
     <Compile Include="Core\Downloaders\AsyncDownloadProgress.cs" />
-    <Compile Include="Core\Downloaders\StringDownloaders\AsyncStringDownloader.cs" />
+    <Compile Include="Core\Downloaders\StringDownloaders\ParallelAsyncStringDownloader.cs" />
     <Compile Include="Core\Downloaders\StringDownloaders\IAsyncStringDownloader.cs" />
     <Compile Include="Core\Downloaders\StringDownloaders\SequentialAsyncStringDownloader.cs" />
     <Compile Include="Core\Downloaders\VersionInfoFileListDownloaders\FilteredVersionListDownloader.cs" />

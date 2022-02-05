@@ -29,12 +29,12 @@ using Minecraft_Server_Downloader.Utils;
 
 namespace Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders
 {
-    public class AsyncStringDownloader : IAsyncStringDownloader
+    public class ParallelAsyncStringDownloader : IAsyncStringDownloader
     {
         private readonly HttpClient _client;
         private readonly CancellationToken _token;
 
-        public AsyncStringDownloader(CancellationToken token)
+        public ParallelAsyncStringDownloader(CancellationToken token)
         {
             _client = new HttpClient();
             _client.Timeout = TimeSpan.FromSeconds(10);
