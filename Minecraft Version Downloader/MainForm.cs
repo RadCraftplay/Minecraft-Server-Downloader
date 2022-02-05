@@ -70,7 +70,7 @@ namespace Minecraft_Server_Downloader
         /// </summary>s
         private void refreshButton_Click(object sender, EventArgs e)
 		{
-			var d = new DownloadVersionsDialog();
+			var d = new DownloadVersionsDialog(serverVersions);
 			d.ShowDialog();
 
 			if (d.DialogCloseReason == CloseReason.Error)

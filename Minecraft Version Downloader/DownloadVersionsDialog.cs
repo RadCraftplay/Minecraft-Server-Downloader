@@ -43,13 +43,13 @@ namespace Minecraft_Server_Downloader
 
         #endregion
 
-		public DownloadVersionsDialog()
+		public DownloadVersionsDialog(List<VersionInfoFile> localVersions)
 		{
 			InitializeComponent();
 
             ServerVersions = ImmutableArray<VersionInfoFile>.Empty;
             _source = new CancellationTokenSource();
-            _downloader = new StandardAsyncVersionListDownloader(_source.Token);
+            _downloader = new IncrementalAsyncVersionListDownloader(_source.Token, localVersions);
             _progress = new Progress<AsyncDownloadProgress>();
             _progress.ProgressChanged += DownloadProgressChanged;
 		}
