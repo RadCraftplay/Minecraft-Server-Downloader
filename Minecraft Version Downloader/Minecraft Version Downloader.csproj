@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="CloseReason.cs" />
     <Compile Include="Core\Downloaders\AsyncDownloadProgress.cs" />
+    <Compile Include="Core\Downloaders\StringDownloaders\AsyncStringDownloader.cs" />
     <Compile Include="Core\Downloaders\VersionInfoFileListDownloaders\FilteredVersionListDownloader.cs" />
     <Compile Include="Core\Downloaders\VersionInfoFileListDownloaders\IncrementalVersionListDownloader.cs" />
     <Compile Include="Core\Downloaders\VersionInfoFileListDownloaders\IVersionFileListDownloader.cs" />
@@ -101,7 +102,6 @@
     <Compile Include="Core\Storage\ILocalStorage.cs" />
     <Compile Include="Core\Storage\JsonStorage.cs" />
     <Compile Include="Core\Storage\TextStorage.cs" />
-    <Compile Include="Core\Downloaders\AsyncStringDownloader.cs" />
     <Compile Include="DownloadVersionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>

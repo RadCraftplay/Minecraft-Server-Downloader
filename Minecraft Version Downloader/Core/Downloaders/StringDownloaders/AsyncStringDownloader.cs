@@ -21,14 +21,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Minecraft_Server_Downloader.Utils;
 
-namespace Minecraft_Server_Downloader.Core.Downloaders
+namespace Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders
 {
     public class AsyncStringDownloader
     {
@@ -41,7 +40,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders
             _client.Timeout = TimeSpan.FromSeconds(10);
             _token = token;
         }
-
+        
         public async Task<IEnumerable<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
         {
             var queue = downloadQueue as string[] ?? downloadQueue.ToArray();

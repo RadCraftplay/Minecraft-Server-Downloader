@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders;
 using Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownloaders;
 using Minecraft_Server_Downloader.Structures;
 using Newtonsoft.Json;
