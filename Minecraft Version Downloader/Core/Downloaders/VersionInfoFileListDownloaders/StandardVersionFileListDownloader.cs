@@ -28,7 +28,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownlo
 {
     public class StandardVersionFileListDownloader : IVersionFileListDownloader
     {
-        private const string VERSION_LIST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
+        public const string VERSION_LIST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
         private readonly IAsyncStringDownloader _downloader;
 
         public StandardVersionFileListDownloader(IAsyncStringDownloader downloader)
