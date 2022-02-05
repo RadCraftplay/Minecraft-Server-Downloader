@@ -25,13 +25,112 @@ using System.Text;
 
 namespace Minecraft_Server_Downloader.Structures
 {
-    public class VersionInfoFile
+    public class VersionInfoFile : IEquatable<VersionInfoFile>
     {
-        public class MinecraftDownloads
+	    public bool Equals(VersionInfoFile other)
+	    {
+		    if (ReferenceEquals(null, other)) return false;
+		    if (ReferenceEquals(this, other)) return true;
+		    return id == other.id && type == other.type && Equals(downloads, other.downloads);
+	    }
+
+	    public override bool Equals(object obj)
+	    {
+		    if (ReferenceEquals(null, obj)) return false;
+		    if (ReferenceEquals(this, obj)) return true;
+		    if (obj.GetType() != this.GetType()) return false;
+		    return Equals((VersionInfoFile)obj);
+	    }
+
+	    public override int GetHashCode()
+	    {
+		    unchecked
+		    {
+			    var hashCode = (id != null ? id.GetHashCode() : 0);
+			    hashCode = (hashCode * 397) ^ (type != null ? type.GetHashCode() : 0);
+			    hashCode = (hashCode * 397) ^ (downloads != null ? downloads.GetHashCode() : 0);
+			    return hashCode;
+		    }
+	    }
+
+	    public static bool operator ==(VersionInfoFile left, VersionInfoFile right)
+	    {
+		    return Equals(left, right);
+	    }
+
+	    public static bool operator !=(VersionInfoFile left, VersionInfoFile right)
+	    {
+		    return !Equals(left, right);
+	    }
+
+	    public class MinecraftDownloads : IEquatable<MinecraftDownloads>
         {
-            public class MinecraftDownloadInfo
+	        public bool Equals(MinecraftDownloads other)
+	        {
+		        if (ReferenceEquals(null, other)) return false;
+		        if (ReferenceEquals(this, other)) return true;
+		        return Equals(server, other.server);
+	        }
+
+	        public override bool Equals(object obj)
+	        {
+		        if (ReferenceEquals(null, obj)) return false;
+		        if (ReferenceEquals(this, obj)) return true;
+		        if (obj.GetType() != this.GetType()) return false;
+		        return Equals((MinecraftDownloads)obj);
+	        }
+
+	        public override int GetHashCode()
+	        {
+		        return (server != null ? server.GetHashCode() : 0);
+	        }
+
+	        public static bool operator ==(MinecraftDownloads left, MinecraftDownloads right)
+	        {
+		        return Equals(left, right);
+	        }
+
+	        public static bool operator !=(MinecraftDownloads left, MinecraftDownloads right)
+	        {
+		        return !Equals(left, right);
+	        }
+
+	        public class MinecraftDownloadInfo : IEquatable<MinecraftDownloadInfo>
             {
-                public int size;
+	            public bool Equals(MinecraftDownloadInfo other)
+	            {
+		            if (ReferenceEquals(null, other)) return false;
+		            if (ReferenceEquals(this, other)) return true;
+		            return size == other.size && url == other.url;
+	            }
+
+	            public override bool Equals(object obj)
+	            {
+		            if (ReferenceEquals(null, obj)) return false;
+		            if (ReferenceEquals(this, obj)) return true;
+		            if (obj.GetType() != this.GetType()) return false;
+		            return Equals((MinecraftDownloadInfo)obj);
+	            }
+
+	            public override int GetHashCode()
+	            {
+		            unchecked
+		            {
+			            return (size * 397) ^ (url != null ? url.GetHashCode() : 0);
+		            }
+	            }
+
+	            public static bool operator ==(MinecraftDownloadInfo left, MinecraftDownloadInfo right)
+	            {
+		            return Equals(left, right);
+	            }
+
+	            public static bool operator !=(MinecraftDownloadInfo left, MinecraftDownloadInfo right)
+	            {
+		            return !Equals(left, right);
+	            }
+
+	            public int size;
                 public string url;
             }
 

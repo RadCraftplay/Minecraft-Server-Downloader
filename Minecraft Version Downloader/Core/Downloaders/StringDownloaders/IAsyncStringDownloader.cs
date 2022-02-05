@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of Minecraft Server Downloader.
 
 	Copyright (C) 2016-2022 Distroir
@@ -18,17 +18,15 @@
 
 	Email: radcraftplay2@gmail.com
 */
-namespace Minecraft_Server_Downloader.Core.Downloaders
-{
-    public class AsyncDownloadProgress
-    {
-        public AsyncDownloadProgress(int current, int all)
-        {
-            Current = current;
-            All = all;
-        }
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-        public int Current { get; }
-        public int All { get; }
+namespace Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders
+{
+    public interface IAsyncStringDownloader
+    {
+        Task<IEnumerable<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress);
+        Task<string> DownloadString(string url);
     }
 }

@@ -1,7 +1,7 @@
 ﻿/*
 	This file is part of Minecraft Server Downloader.
 
-	Copyright (C) 2016-2020 Distroir
+	Copyright (C) 2016-2022 Distroir
 
 	Minecraft Server Downloader is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,41 +18,51 @@
 
 	Email: radcraftplay2@gmail.com
 */
-
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Minecraft_Server_Downloader.Utils;
 
-namespace Minecraft_Server_Downloader.Core.Downloaders
+namespace Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders
 {
-    public class AsyncStringDownloader
+    public class ParallelAsyncStringDownloader : IAsyncStringDownloader
     {
+        private const int MAX_CONCURRENT_DOWNLOADS = 10;
+        
         private readonly HttpClient _client;
         private readonly CancellationToken _token;
 
-        public AsyncStringDownloader(CancellationToken token)
+        public ParallelAsyncStringDownloader(CancellationToken token)
         {
             _client = new HttpClient();
             _client.Timeout = TimeSpan.FromSeconds(10);
             _token = token;
         }
-
-        public async Task<ImmutableArray<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
+        
+        public async Task<IEnumerable<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
         {
+            var semaphore = new SemaphoreSlim(MAX_CONCURRENT_DOWNLOADS);
             var queue = downloadQueue as string[] ?? downloadQueue.ToArray();
             var reporter = new ProgressReporter(progress, queue.Length);
             var tasks = new List<Task<string>>();
 
             foreach (var url in queue)
-                tasks.Add(DownloadStringAndReportProgress(url, reporter));
+                tasks.Add(DownloadWithLimitAndReportProgress(semaphore, url, reporter));
+            
+            return await Task.WhenAll(tasks);
+        }
 
-            var result = await Task.WhenAll(tasks);
-            return ImmutableArray.CreateRange(result);
+        private async Task<string> DownloadWithLimitAndReportProgress(SemaphoreSlim semaphore,
+            string url, ProgressReporter reporter)
+        {
+            await semaphore.WaitAsync(_token);
+            var result = await DownloadStringAndReportProgress(url, reporter);
+            semaphore.Release();
+            
+            return result;
         }
 
         private async Task<string> DownloadStringAndReportProgress(string url, ProgressReporter reporter)

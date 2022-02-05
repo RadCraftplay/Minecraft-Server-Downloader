@@ -1,4 +1,4 @@
-﻿/*
+/*
 	This file is part of Minecraft Server Downloader.
 
 	Copyright (C) 2016-2022 Distroir
@@ -19,37 +19,28 @@
 	Email: radcraftplay2@gmail.com
 */
 using System.Collections.Generic;
-using System.IO;
+using System.Threading.Tasks;
+using Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders;
 using Minecraft_Server_Downloader.Structures;
 using Newtonsoft.Json;
 
-namespace Minecraft_Server_Downloader.Core.Storage
+namespace Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownloaders
 {
-    public class JsonStorage : ILocalStorage
+    public class StandardVersionFileListDownloader : IVersionFileListDownloader
     {
-        private readonly string _filename;
+        public const string VERSION_LIST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
+        private readonly IAsyncStringDownloader _downloader;
 
-        public JsonStorage(string filename)
+        public StandardVersionFileListDownloader(IAsyncStringDownloader downloader)
         {
-            _filename = filename;
+            _downloader = downloader;
         }
-
-        public List<VersionInfoFile> Load()
+        
+        public async Task<IEnumerable<VersionListFile.MinecraftVersion>> GetVersionInfoFileUrls()
         {
-            JsonSerializer serializer = new JsonSerializer();
-
-            using (TextReader reader = new StreamReader(_filename))
-            using (JsonReader jsonReader = new JsonTextReader(reader))
-                return serializer.Deserialize<List<VersionInfoFile>>(jsonReader);
-        }
-
-        public void Save(List<VersionInfoFile> versions)
-        {
-            JsonSerializer serializer = new JsonSerializer();
-
-            using (TextWriter writer = new StreamWriter(_filename))
-            using (JsonWriter jsonWriter = new JsonTextWriter(writer))
-                serializer.Serialize(jsonWriter, versions);
+            var versionInfoFileContents = await _downloader.DownloadString(VERSION_LIST_URL);
+            var versionListFileObject = JsonConvert.DeserializeObject<VersionListFile>(versionInfoFileContents);
+            return versionListFileObject.versions;
         }
     }
 }

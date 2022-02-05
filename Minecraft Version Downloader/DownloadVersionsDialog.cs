@@ -20,10 +20,11 @@
 */
 using MetroFramework.Forms;
 using System;
-using System.Collections.Immutable;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using Minecraft_Server_Downloader.Core.Downloaders;
+using Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders;
 using Minecraft_Server_Downloader.Structures;
 
 namespace Minecraft_Server_Downloader
@@ -32,22 +33,22 @@ namespace Minecraft_Server_Downloader
 	{
         #region Variables
 
-        private readonly AsyncVersionListDownloader _downloader;
+        private readonly IAsyncVersionListDownloader _downloader;
         private readonly Progress<AsyncDownloadProgress> _progress;
         private readonly CancellationTokenSource _source;
 
 		public CloseReason DialogCloseReason { get; private set; } = CloseReason.UserAction;
-        public ImmutableArray<VersionInfoFile> ServerVersions { get; private set; }
+        public IEnumerable<VersionInfoFile> ServerVersions { get; private set; }
 
         #endregion
 
-		public DownloadVersionsDialog()
+		public DownloadVersionsDialog(List<VersionInfoFile> localVersions)
 		{
 			InitializeComponent();
 
-            ServerVersions = ImmutableArray<VersionInfoFile>.Empty;
+            ServerVersions = new List<VersionInfoFile>();
             _source = new CancellationTokenSource();
-            _downloader = new AsyncVersionListDownloader(_source.Token);
+            _downloader = new IncrementalAsyncVersionListDownloader(_source.Token, localVersions);
             _progress = new Progress<AsyncDownloadProgress>();
             _progress.ProgressChanged += DownloadProgressChanged;
 		}
@@ -66,7 +67,7 @@ namespace Minecraft_Server_Downloader
         {
             try
             {
-                ServerVersions = await _downloader.DownloadVersions(_progress);
+                ServerVersions = await _downloader.DownloadListOfVersions(_progress);
                 DialogCloseReason = CloseReason.DownloadingFinished;
             }
             catch
