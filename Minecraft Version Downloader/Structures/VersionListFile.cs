@@ -25,11 +25,74 @@ using System.Text;
 
 namespace Minecraft_Server_Downloader.Structures
 {
-    public class VersionListFile
+    public class VersionListFile : IEquatable<VersionListFile>
     {
-        public class MinecraftVersion
+	    public bool Equals(VersionListFile other)
+	    {
+		    if (ReferenceEquals(null, other)) return false;
+		    if (ReferenceEquals(this, other)) return true;
+		    return Equals(versions, other.versions);
+	    }
+
+	    public override bool Equals(object obj)
+	    {
+		    if (ReferenceEquals(null, obj)) return false;
+		    if (ReferenceEquals(this, obj)) return true;
+		    if (obj.GetType() != this.GetType()) return false;
+		    return Equals((VersionListFile)obj);
+	    }
+
+	    public override int GetHashCode()
+	    {
+		    return (versions != null ? versions.GetHashCode() : 0);
+	    }
+
+	    public static bool operator ==(VersionListFile left, VersionListFile right)
+	    {
+		    return Equals(left, right);
+	    }
+
+	    public static bool operator !=(VersionListFile left, VersionListFile right)
+	    {
+		    return !Equals(left, right);
+	    }
+
+	    public class MinecraftVersion : IEquatable<MinecraftVersion>
         {
-            public string id;
+	        public bool Equals(MinecraftVersion other)
+	        {
+		        if (ReferenceEquals(null, other)) return false;
+		        if (ReferenceEquals(this, other)) return true;
+		        return id == other.id && url == other.url;
+	        }
+
+	        public override bool Equals(object obj)
+	        {
+		        if (ReferenceEquals(null, obj)) return false;
+		        if (ReferenceEquals(this, obj)) return true;
+		        if (obj.GetType() != this.GetType()) return false;
+		        return Equals((MinecraftVersion)obj);
+	        }
+
+	        public override int GetHashCode()
+	        {
+		        unchecked
+		        {
+			        return ((id != null ? id.GetHashCode() : 0) * 397) ^ (url != null ? url.GetHashCode() : 0);
+		        }
+	        }
+
+	        public static bool operator ==(MinecraftVersion left, MinecraftVersion right)
+	        {
+		        return Equals(left, right);
+	        }
+
+	        public static bool operator !=(MinecraftVersion left, MinecraftVersion right)
+	        {
+		        return !Equals(left, right);
+	        }
+
+	        public string id;
             public string url;
         }
 
