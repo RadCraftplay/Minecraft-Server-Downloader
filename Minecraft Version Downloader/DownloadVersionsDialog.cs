@@ -21,7 +21,6 @@
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Windows.Forms;
 using System.Threading;
 using Minecraft_Server_Downloader.Core.Downloaders;
@@ -47,7 +46,7 @@ namespace Minecraft_Server_Downloader
 		{
 			InitializeComponent();
 
-            ServerVersions = ImmutableArray<VersionInfoFile>.Empty;
+            ServerVersions = new List<VersionInfoFile>();
             _source = new CancellationTokenSource();
             _downloader = new IncrementalAsyncVersionListDownloader(_source.Token, localVersions);
             _progress = new Progress<AsyncDownloadProgress>();
