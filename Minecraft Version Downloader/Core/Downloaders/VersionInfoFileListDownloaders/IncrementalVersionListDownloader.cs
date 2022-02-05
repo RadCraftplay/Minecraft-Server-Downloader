@@ -9,7 +9,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownlo
     {
         private readonly FilteredVersionListDownloader _downloader;
 
-        public IncrementalVersionListDownloader(AsyncStringDownloader downloader, List<string> localVersions)
+        public IncrementalVersionListDownloader(IAsyncStringDownloader downloader, List<string> localVersions)
         {
             _downloader = new FilteredVersionListDownloader(downloader, 
                 version => !localVersions.Contains(version.id));
