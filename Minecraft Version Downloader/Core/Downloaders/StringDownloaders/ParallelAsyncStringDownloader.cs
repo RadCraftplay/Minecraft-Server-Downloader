@@ -30,6 +30,8 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders
 {
     public class ParallelAsyncStringDownloader : IAsyncStringDownloader
     {
+        private const int MAX_CONCURRENT_DOWNLOADS = 10;
+        
         private readonly HttpClient _client;
         private readonly CancellationToken _token;
 
@@ -42,14 +44,25 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders
         
         public async Task<IEnumerable<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
         {
+            var semaphore = new SemaphoreSlim(MAX_CONCURRENT_DOWNLOADS);
             var queue = downloadQueue as string[] ?? downloadQueue.ToArray();
             var reporter = new ProgressReporter(progress, queue.Length);
             var tasks = new List<Task<string>>();
 
             foreach (var url in queue)
-                tasks.Add(DownloadStringAndReportProgress(url, reporter));
+                tasks.Add(DownloadWithLimitAndReportProgress(semaphore, url, reporter));
             
             return await Task.WhenAll(tasks);
+        }
+
+        private async Task<string> DownloadWithLimitAndReportProgress(SemaphoreSlim semaphore,
+            string url, ProgressReporter reporter)
+        {
+            await semaphore.WaitAsync(_token);
+            var result = await DownloadStringAndReportProgress(url, reporter);
+            semaphore.Release();
+            
+            return result;
         }
 
         private async Task<string> DownloadStringAndReportProgress(string url, ProgressReporter reporter)

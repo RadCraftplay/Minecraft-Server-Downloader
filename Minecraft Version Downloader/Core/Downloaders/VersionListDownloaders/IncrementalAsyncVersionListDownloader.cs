@@ -37,7 +37,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
 
         public IncrementalAsyncVersionListDownloader(CancellationToken token, List<VersionInfoFile> localVersions)
         {
-            var stringDownloader = new SequentialAsyncStringDownloader(token);
+            var stringDownloader = new ParallelAsyncStringDownloader(token);
             _downloader = new AsyncVersionListDownloader(
                 stringDownloader,
                 new IncrementalVersionListDownloader(
