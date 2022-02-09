@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ namespace Minecraft_Server_Downloader.Core.DataStorage
 {
     public class JsonDataStorage : IDataStorage
     {
-        private const string DATA_FILENAME = "config.json";
+        private static readonly string DATA_FILENAME = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+            "Distroir", "Minecraft Version Downloader", "config.json");
         
         private readonly IFileSystem _fileSystem;
         private JObject data;
