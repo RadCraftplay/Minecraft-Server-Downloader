@@ -29,6 +29,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows.Forms;
+using Minecraft_Server_Downloader.Core.Downloaders;
+using Minecraft_Server_Downloader.Core.Downloaders.FileDownloaders;
 
 namespace Minecraft_Server_Downloader
 {
@@ -37,9 +39,11 @@ namespace Minecraft_Server_Downloader
         #region Variables
 
         /// <summary>
-        /// WebClient used for downloading server
+        /// Downloader used for downloading server
         /// </summary>
-        WebClient client = new WebClient();
+        private IAsyncFileDownloader downloader;
+
+        private IProgress<AsyncDownloadProgress> progress;
 
         /// <summary>
         /// File containing list of Minecraft server versions
@@ -59,6 +63,8 @@ namespace Minecraft_Server_Downloader
 		{
 			InitializeComponent();
             versionStorage = new TextStorage(VersionListFilePath);
+            progress = new Progress<AsyncDownloadProgress>(DownloadProgressChanged);
+            downloader = new WebAsyncFileDownloader(progress);
 		}
 
         #region Events
@@ -109,24 +115,29 @@ namespace Minecraft_Server_Downloader
                     downloadButton.Click -= downloadButton_Click;
                     downloadButton.Click += cancelButton_Click;
 
-                    client.DownloadFileAsync(new Uri(info.downloads.server.url), sfd.FileName);
+                    downloader.DownloadFileAsync(info.downloads.server.url, sfd.FileName);
                 }
             }
         }
 
-        private void cancelButton_Click(object sender, EventArgs e)
+        private async void cancelButton_Click(object sender, EventArgs e)
         {
-            client.CancelAsync();
+	        await downloader.CancelAsync();
+	        
+	        downloadButton.Text = "Download";
+	        downloadButton.Click -= cancelButton_Click;
+	        downloadButton.Click += downloadButton_Click;
+	        
+	        metroProgressBar1.Value = 0;
+	        refreshButton.Enabled = true;
+	        metroListView1.Enabled = true;
         }
 
         #endregion
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-
-            LoadVersionListFile();
+	        LoadVersionListFile();
         }
 
         private void FilterCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -232,24 +243,25 @@ namespace Minecraft_Server_Downloader
         #endregion
 
         #region WebClient events
+        
+        private void DownloadProgressChanged(AsyncDownloadProgress progress)
+        {
+	        if (!progress.Completed)
+	        {
+		        metroProgressBar1.Value = progress.Current;
+		        return;
+	        }
+	        
+	        MetroMessageBox.Show(this, "Downloading finished!");
 
-        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
-		{
-			MetroMessageBox.Show(this, "Downloading finished!");
+	        downloadButton.Text = "Download";
+	        downloadButton.Click += downloadButton_Click;
+	        downloadButton.Click -= cancelButton_Click;
 
-			downloadButton.Text = "Download";
-			downloadButton.Click += downloadButton_Click;
-			downloadButton.Click -= cancelButton_Click;
-
-			metroProgressBar1.Value = 0;
-			refreshButton.Enabled = true;
-			metroListView1.Enabled = true;
-		}
-
-		void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-		{
-			metroProgressBar1.Value = e.ProgressPercentage;
-		}
+	        metroProgressBar1.Value = 0;
+	        refreshButton.Enabled = true;
+	        metroListView1.Enabled = true;
+        }
 
         #endregion
     }
