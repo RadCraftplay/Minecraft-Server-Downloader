@@ -30,7 +30,7 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders
 {
     public class ParallelAsyncStringDownloader : IAsyncStringDownloader
     {
-        private const int MAX_CONCURRENT_DOWNLOADS = 10;
+        private const int MAX_CONCURRENT_DOWNLOADS = 3;
         
         private readonly HttpClient _client;
         private readonly CancellationToken _token;
