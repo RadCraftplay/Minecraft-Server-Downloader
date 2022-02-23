@@ -87,6 +87,8 @@
   <ItemGroup>
     <Compile Include="CloseReason.cs" />
     <Compile Include="Core\Downloaders\AsyncDownloadProgress.cs" />
+    <Compile Include="Core\Downloaders\FileDownloaders\IAsyncFileDownloader.cs" />
+    <Compile Include="Core\Downloaders\FileDownloaders\WebAsyncFileDownloader.cs" />
     <Compile Include="Core\Downloaders\StringDownloaders\ParallelAsyncStringDownloader.cs" />
     <Compile Include="Core\Downloaders\StringDownloaders\IAsyncStringDownloader.cs" />
     <Compile Include="Core\Downloaders\StringDownloaders\SequentialAsyncStringDownloader.cs" />
