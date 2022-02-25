@@ -59,6 +59,7 @@ namespace Minecraft_Server_Downloader.Core
             var versions = await _remoteVersionListDownloader
                 .DownloadListOfVersions(versionUpdateProgress);
             _localVersions = new List<VersionInfoFile>(versions);
+            _storage.Save(_localVersions);
         }
 
         public void CancelUpdatingLocalVersions()
