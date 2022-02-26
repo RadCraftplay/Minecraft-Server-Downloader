@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
+using Minecraft_Server_Downloader.Core;
 using Minecraft_Server_Downloader.Core.Downloaders;
 using Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders;
 using Minecraft_Server_Downloader.Structures;
@@ -33,22 +34,18 @@ namespace Minecraft_Server_Downloader
 	{
         #region Variables
 
-        private readonly IAsyncVersionListDownloader _downloader;
+        private readonly MinecraftServerDownloader _facade;
         private readonly Progress<AsyncDownloadProgress> _progress;
-        private readonly CancellationTokenSource _source;
 
-		public CloseReason DialogCloseReason { get; private set; } = CloseReason.UserAction;
-        public IEnumerable<VersionInfoFile> ServerVersions { get; private set; }
+        public CloseReason DialogCloseReason { get; private set; } = CloseReason.UserAction;
 
         #endregion
 
-		public DownloadVersionsDialog(List<VersionInfoFile> localVersions)
+		public DownloadVersionsDialog(MinecraftServerDownloader facade)
 		{
 			InitializeComponent();
-
-            ServerVersions = new List<VersionInfoFile>();
-            _source = new CancellationTokenSource();
-            _downloader = new IncrementalAsyncVersionListDownloader(_source.Token, localVersions);
+			
+            _facade = facade;
             _progress = new Progress<AsyncDownloadProgress>();
             _progress.ProgressChanged += DownloadProgressChanged;
 		}
@@ -67,8 +64,8 @@ namespace Minecraft_Server_Downloader
         {
             try
             {
-                ServerVersions = await _downloader.DownloadListOfVersions(_progress);
-                DialogCloseReason = CloseReason.DownloadingFinished;
+	            await _facade.UpdateLocalVersions(_progress);
+	            DialogCloseReason = CloseReason.DownloadingFinished;
             }
             catch
             {
@@ -88,7 +85,7 @@ namespace Minecraft_Server_Downloader
 
 		private void DownloadVersionsDialog_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			_source.Cancel();
+			_facade.CancelUpdatingLocalVersions();
 		}
 
         #endregion
