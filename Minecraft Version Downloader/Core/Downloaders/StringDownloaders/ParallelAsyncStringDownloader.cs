@@ -30,21 +30,21 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.StringDownloaders
 {
     public class ParallelAsyncStringDownloader : IAsyncStringDownloader
     {
-        private const int MAX_CONCURRENT_DOWNLOADS = 3;
-        
         private readonly HttpClient _client;
         private readonly CancellationToken _token;
+        private readonly int _maxConcurrentDownloads;
 
-        public ParallelAsyncStringDownloader(CancellationToken token)
+        public ParallelAsyncStringDownloader(CancellationToken token, int maxConcurrentDownloads)
         {
             _client = new HttpClient();
             _client.Timeout = TimeSpan.FromSeconds(10);
             _token = token;
+            _maxConcurrentDownloads = maxConcurrentDownloads;
         }
         
         public async Task<IEnumerable<string>> DownloadList(IEnumerable<string> downloadQueue, IProgress<AsyncDownloadProgress> progress)
         {
-            var semaphore = new SemaphoreSlim(MAX_CONCURRENT_DOWNLOADS);
+            var semaphore = new SemaphoreSlim(_maxConcurrentDownloads);
             var queue = downloadQueue as string[] ?? downloadQueue.ToArray();
             var reporter = new ProgressReporter(progress, queue.Length);
             var tasks = new List<Task<string>>();

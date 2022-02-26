@@ -99,6 +99,7 @@
     <Compile Include="Core\DataStorage\TextDataStorage.cs" />
     <Compile Include="Core\DataStorage\TransformingDataStorage.cs" />
     <Compile Include="Core\Downloaders\AsyncDownloadProgress.cs" />
+    <Compile Include="Core\Downloaders\VersionUpdaterSettings.cs" />
     <Compile Include="Core\Downloaders\FileDownloaders\IAsyncFileDownloader.cs" />
     <Compile Include="Core\Downloaders\FileDownloaders\WebAsyncFileDownloader.cs" />
     <Compile Include="Core\Downloaders\StringDownloaders\ParallelAsyncStringDownloader.cs" />

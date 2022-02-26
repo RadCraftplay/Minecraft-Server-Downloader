@@ -32,9 +32,14 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
     {
         private readonly AsyncVersionListDownloader _downloader;
 
-        public StandardAsyncVersionListDownloader(CancellationToken token)
+        public StandardAsyncVersionListDownloader(CancellationToken token, VersionUpdaterSettings settings)
         {
-            var stringDownloader = new ParallelAsyncStringDownloader(token);
+	        IAsyncStringDownloader stringDownloader = settings.DownloadSynchronously switch
+	        {
+		        true => new SequentialAsyncStringDownloader(token),
+		        false => new ParallelAsyncStringDownloader(token, settings.MaxConcurrentDownloads)
+	        };
+	        
             _downloader = new AsyncVersionListDownloader(
                 stringDownloader,
                 new StandardVersionFileListDownloader(stringDownloader));
