@@ -117,6 +117,8 @@ namespace Minecraft_Server_Downloader
                     downloadButton.Text = "Cancel";
                     downloadButton.Click -= downloadButton_Click;
                     downloadButton.Click += cancelButton_Click;
+
+                    await _facade.DownloadServer(versionId, sfd.FileName, _progress);
                 }
             }
         }
