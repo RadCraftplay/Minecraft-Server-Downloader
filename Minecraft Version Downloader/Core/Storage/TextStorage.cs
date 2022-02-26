@@ -36,6 +36,9 @@ namespace Minecraft_Server_Downloader.Core.Storage
         public List<VersionInfoFile> Load()
         {
             List<VersionInfoFile> localVersions = new List<VersionInfoFile>();
+            
+            if (!File.Exists(_filename))
+                File.Create(_filename).Close();
 
             using (TextReader reader = new StreamReader(_filename))
             {
