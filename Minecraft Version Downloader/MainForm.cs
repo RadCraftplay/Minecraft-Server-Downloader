@@ -95,6 +95,15 @@ namespace Minecraft_Server_Downloader
                 UpdateListOfVersions(await _facade.GetAllLocalServerVersions());
 			}
 		}
+        
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+	        var currentSettings = _facade.VersionUpdaterSettings;
+	        var dialog = new SettingsDialog(currentSettings);
+
+	        if (dialog.ShowDialog() == DialogResult.OK)
+		        _facade.VersionUpdaterSettings = dialog.Settings;
+        }
 
         private async void downloadButton_Click(object sender, EventArgs e)
         {

@@ -155,6 +155,7 @@ namespace Minecraft_Server_Downloader
 	        this.settingsButton.Size = new System.Drawing.Size(23, 23);
 	        this.settingsButton.TabIndex = 6;
 	        this.settingsButton.UseVisualStyleBackColor = false;
+	        this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
 	        // 
 	        // refreshButton
 	        // 

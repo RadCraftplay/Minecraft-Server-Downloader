@@ -64,6 +64,12 @@ namespace Minecraft_Server_Downloader.Core
             _storage = new TextStorage(versionListFilePath);
         }
 
+        public VersionUpdaterSettings VersionUpdaterSettings
+        {
+            get => _config.Get<VersionUpdaterSettings>("versionUpdaterSettings");
+            set => _config.Set("versionUpdaterSettings", value);
+        }
+
         public async Task Init()
         {
             // Check directories
