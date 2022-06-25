@@ -110,7 +110,7 @@ namespace Minecraft_Server_Downloader.Core
 
             var versions = await _remoteVersionListDownloader
                 .DownloadListOfVersions(versionUpdateProgress);
-            _localVersions = new List<VersionInfoFile>(versions);
+            _localVersions = versions.ToList();
             _storage.Save(_localVersions);
         }
 
@@ -133,9 +133,9 @@ namespace Minecraft_Server_Downloader.Core
             await _downloader.DownloadFileAsync(versionUrl, filename);
         }
 
-        public void CancelDownloadingServer()
+        public async Task CancelDownloadingServer()
         {
-            _downloader.CancelAsync();
+            await _downloader.CancelAsync();
         }
     }
 }
