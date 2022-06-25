@@ -132,9 +132,9 @@ namespace Minecraft_Server_Downloader
             }
         }
 
-        private void cancelButton_Click(object sender, EventArgs e)
+        private async void cancelButton_Click(object sender, EventArgs e)
         {
-	        _facade.CancelDownloadingServer();
+	        await _facade.CancelDownloadingServer();
 	        
 	        downloadButton.Text = "Download";
 	        downloadButton.Click -= cancelButton_Click;
