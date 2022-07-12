@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Minecraft Server Downloader"
-#define MyAppVersion "3"
+#define MyAppVersion "4"
 #define MyAppPublisher "Distroir"
 #define MyAppURL "http://gamebanana.com/tools/5990"
 #define MyAppExeName "Minecraft Server Downloader.exe"
@@ -41,7 +41,7 @@ Source: "Minecraft Version Downloader\bin\x64\Release\Minecraft Server Downloade
 Source: "Minecraft Version Downloader\bin\x64\Release\MetroFramework.dll"; DestDir: "{app}";
 Source: "Minecraft Version Downloader\bin\x64\Release\MetroFramework.Fonts.dll"; DestDir: "{app}";
 Source: "Minecraft Version Downloader\bin\x64\Release\Newtonsoft.Json.dll"; DestDir: "{app}";
-Source: "Minecraft Version Downloader\bin\x64\Release\System.Collections.Immutable.dll"; DestDir: "{app}";
+Source: "Minecraft Version Downloader\bin\x64\Release\System.IO.Abstractions.dll"; DestDir: "{app}";
 ; License file
 Source: "setup-files\gpl-3.0.txt"; DestDir: "{app}"; Flags: solidbreak
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
