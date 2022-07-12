@@ -17,14 +17,16 @@
 // 
 // Email: radcraftplay2@gmail.com
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Minecraft_Server_Downloader.Structures;
 
-namespace Minecraft_Server_Downloader.Core.Downloaders.VersionInfoFileListDownloaders
+namespace Minecraft_Server_Downloader.Core.DataStorage
 {
-    public interface IVersionFileListDownloader
+    public interface IDataStorage
     {
-        Task<IEnumerable<VersionListFile.MinecraftVersion>> GetVersionInfoFileUrls();
+        Task Load();
+        Task Save();
+        bool Contains(string name);
+        T Get<T>(string name);
+        void Set<T>(string name, T value);
     }
 }

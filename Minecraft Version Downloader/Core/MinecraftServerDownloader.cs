@@ -1,29 +1,30 @@
-/*
-	This file is part of Minecraft Server Downloader.
+// This file is part of Minecraft Server Downloader.
+// 
+// Copyright (C) 2016-2022 Distroir
+// 
+// Minecraft Server Downloader is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Minecraft Server Downloader is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// Email: radcraftplay2@gmail.com
 
-	Copyright (C) 2016-2022 Distroir
-
-	Minecraft Server Downloader is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	Minecraft Server Downloader is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-	Email: radcraftplay2@gmail.com
-*/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Minecraft_Server_Downloader.Core.DataStorage;
 using Minecraft_Server_Downloader.Core.Downloaders;
 using Minecraft_Server_Downloader.Core.Downloaders.FileDownloaders;
 using Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders;
@@ -35,6 +36,7 @@ namespace Minecraft_Server_Downloader.Core
     public class MinecraftServerDownloader
     {
         private readonly ILocalStorage _storage;
+        private readonly IDataStorage _config;
         private List<VersionInfoFile> _localVersions;
         private IAsyncVersionListDownloader _remoteVersionListDownloader;
         private CancellationTokenSource _remoteVersionListDownloaderCancellationTokenSource;
@@ -45,7 +47,26 @@ namespace Minecraft_Server_Downloader.Core
             var versionListFilePath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
                 "Distroir", "Minecraft Version Downloader", "server_versions.txt");
+            
+            _config = new FallbackDataStorage(
+                new JsonDataStorage(), 
+                new DefaultSettingsDataStorage(new Dictionary<string, object>
+            {
+                { "versionUpdaterSettings", new VersionUpdaterSettings()
+                {
+                    DownloadSynchronously = false, 
+                    MaxConcurrentDownloads = 3, 
+                    DownloadAllVersions = false
+                } }
+            }));
+            
             _storage = new TextStorage(versionListFilePath);
+        }
+
+        public VersionUpdaterSettings VersionUpdaterSettings
+        {
+            get => _config.Get<VersionUpdaterSettings>("versionUpdaterSettings");
+            set => _config.Set("versionUpdaterSettings", value);
         }
 
         public async Task Init()
@@ -55,7 +76,8 @@ namespace Minecraft_Server_Downloader.Core
                 Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Distroir"));
             if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Distroir", "Minecraft Version Downloader")))
                 Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Distroir", "Minecraft Version Downloader"));
-            
+
+            await _config.Load();
             await Task.Run(() => _localVersions = _storage.Load());
         }
         
@@ -71,14 +93,23 @@ namespace Minecraft_Server_Downloader.Core
 
         public async Task UpdateLocalVersions(IProgress<AsyncDownloadProgress> versionUpdateProgress)
         {
-            _remoteVersionListDownloaderCancellationTokenSource = new CancellationTokenSource();
-            _remoteVersionListDownloader =
-                new IncrementalAsyncVersionListDownloader(_remoteVersionListDownloaderCancellationTokenSource.Token,
-                    _localVersions);
+            var settings = _config.Get<VersionUpdaterSettings>("versionUpdaterSettings");
             
+            _remoteVersionListDownloaderCancellationTokenSource = new CancellationTokenSource();
+            _remoteVersionListDownloader = settings.DownloadAllVersions switch
+            {
+                true => new StandardAsyncVersionListDownloader(
+                    _remoteVersionListDownloaderCancellationTokenSource.Token,
+                    settings),
+                false => new IncrementalAsyncVersionListDownloader(
+                    _remoteVersionListDownloaderCancellationTokenSource.Token,
+                    _localVersions,
+                    settings)
+            };
+
             var versions = await _remoteVersionListDownloader
                 .DownloadListOfVersions(versionUpdateProgress);
-            _localVersions = new List<VersionInfoFile>(versions);
+            _localVersions = versions.ToList();
             _storage.Save(_localVersions);
         }
 
@@ -101,9 +132,9 @@ namespace Minecraft_Server_Downloader.Core
             await _downloader.DownloadFileAsync(versionUrl, filename);
         }
 
-        public void CancelDownloadingServer()
+        public async Task CancelDownloadingServer()
         {
-            _downloader.CancelAsync();
+            await _downloader.CancelAsync();
         }
     }
 }

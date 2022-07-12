@@ -1,25 +1,25 @@
-/*
-	This file is part of Minecraft Server Downloader.
+// This file is part of Minecraft Server Downloader.
+// 
+// Copyright (C) 2016-2022 Distroir
+// 
+// Minecraft Server Downloader is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Minecraft Server Downloader is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// Email: radcraftplay2@gmail.com
 
-	Copyright (C) 2016-2022 Distroir
-
-	Minecraft Server Downloader is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	Minecraft Server Downloader is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-	Email: radcraftplay2@gmail.com
-*/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,9 +35,14 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.VersionListDownloaders
         private readonly AsyncVersionListDownloader _downloader;
         private readonly List<VersionInfoFile> _localVersions;
 
-        public IncrementalAsyncVersionListDownloader(CancellationToken token, List<VersionInfoFile> localVersions)
+        public IncrementalAsyncVersionListDownloader(CancellationToken token, List<VersionInfoFile> localVersions, VersionUpdaterSettings settings)
         {
-            var stringDownloader = new ParallelAsyncStringDownloader(token);
+	        IAsyncStringDownloader stringDownloader = settings.DownloadSynchronously switch
+	        {
+				true => new SequentialAsyncStringDownloader(token),
+				false => new ParallelAsyncStringDownloader(token, settings.MaxConcurrentDownloads)
+	        };
+            
             _downloader = new AsyncVersionListDownloader(
                 stringDownloader,
                 new IncrementalVersionListDownloader(

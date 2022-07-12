@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Minecraft_Server_Downloader</RootNamespace>
     <AssemblyName>Minecraft Server Downloader</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -69,11 +70,16 @@
     <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Abstractions, Version=16.0.0.0, Culture=neutral, PublicKeyToken=96bf224d23c43e59">
+      <HintPath>..\packages\System.IO.Abstractions.16.1.10\lib\net461\System.IO.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -86,7 +92,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloseReason.cs" />
+    <Compile Include="Core\DataStorage\DefaultSettingsDataStorage.cs" />
+    <Compile Include="Core\DataStorage\FallbackDataStorage.cs" />
+    <Compile Include="Core\DataStorage\IDataStorage.cs" />
+    <Compile Include="Core\DataStorage\JsonDataStorage.cs" />
+    <Compile Include="Core\DataStorage\TextDataStorage.cs" />
+    <Compile Include="Core\DataStorage\TransformingDataStorage.cs" />
     <Compile Include="Core\Downloaders\AsyncDownloadProgress.cs" />
+    <Compile Include="Core\Downloaders\VersionUpdaterSettings.cs" />
     <Compile Include="Core\Downloaders\FileDownloaders\IAsyncFileDownloader.cs" />
     <Compile Include="Core\Downloaders\FileDownloaders\WebAsyncFileDownloader.cs" />
     <Compile Include="Core\Downloaders\StringDownloaders\ParallelAsyncStringDownloader.cs" />
@@ -118,6 +131,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsDialog.Designer.cs">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Structures\VersionInfoFile.cs" />
     <Compile Include="Structures\VersionListFile.cs" />
     <Compile Include="Utils\ProgressReporter.cs" />
@@ -137,6 +156,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SettingsDialog.resx">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Minecraft Version Downloader.licenseheader" />
     <None Include="packages.config" />

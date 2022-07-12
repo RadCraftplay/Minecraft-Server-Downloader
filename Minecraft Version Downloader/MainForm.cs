@@ -1,23 +1,22 @@
-﻿/*
-	This file is part of Minecraft Server Downloader.
+﻿// This file is part of Minecraft Server Downloader.
+// 
+// Copyright (C) 2016-2022 Distroir
+// 
+// Minecraft Server Downloader is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Minecraft Server Downloader is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// Email: radcraftplay2@gmail.com
 
-	Copyright (C) 2016-2020 Distroir
-
-	Minecraft Server Downloader is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	Minecraft Server Downloader is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-	Email: radcraftplay2@gmail.com
-*/
 using MetroFramework;
 using MetroFramework.Forms;
 using Minecraft_Server_Downloader.Structures;
@@ -95,6 +94,15 @@ namespace Minecraft_Server_Downloader
                 UpdateListOfVersions(await _facade.GetAllLocalServerVersions());
 			}
 		}
+        
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+	        var currentSettings = _facade.VersionUpdaterSettings;
+	        var dialog = new SettingsDialog(currentSettings);
+
+	        if (dialog.ShowDialog() == DialogResult.OK)
+		        _facade.VersionUpdaterSettings = dialog.Settings;
+        }
 
         private async void downloadButton_Click(object sender, EventArgs e)
         {
@@ -123,9 +131,9 @@ namespace Minecraft_Server_Downloader
             }
         }
 
-        private void cancelButton_Click(object sender, EventArgs e)
+        private async void cancelButton_Click(object sender, EventArgs e)
         {
-	        _facade.CancelDownloadingServer();
+	        await _facade.CancelDownloadingServer();
 	        
 	        downloadButton.Text = "Download";
 	        downloadButton.Click -= cancelButton_Click;
