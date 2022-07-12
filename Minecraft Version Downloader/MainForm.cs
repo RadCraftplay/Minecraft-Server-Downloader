@@ -95,13 +95,16 @@ namespace Minecraft_Server_Downloader
 			}
 		}
         
-        private void settingsButton_Click(object sender, EventArgs e)
+        private async void settingsButton_Click(object sender, EventArgs e)
         {
 	        var currentSettings = _facade.VersionUpdaterSettings;
 	        var dialog = new SettingsDialog(currentSettings);
 
 	        if (dialog.ShowDialog() == DialogResult.OK)
+	        {
 		        _facade.VersionUpdaterSettings = dialog.Settings;
+		        await _facade.SaveSettings();
+	        }
         }
 
         private async void downloadButton_Click(object sender, EventArgs e)

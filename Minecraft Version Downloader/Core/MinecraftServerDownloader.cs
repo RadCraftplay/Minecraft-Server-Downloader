@@ -80,6 +80,11 @@ namespace Minecraft_Server_Downloader.Core
             await _config.Load();
             await Task.Run(() => _localVersions = _storage.Load());
         }
+
+        public async Task SaveSettings()
+        {
+            await _config.Save();
+        }
         
         public async Task<IEnumerable<VersionInfoFile>> GetAllLocalServerVersions()
         {
