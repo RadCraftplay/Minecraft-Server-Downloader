@@ -42,8 +42,16 @@ namespace Minecraft_Server_Downloader.Core.Downloaders.FileDownloaders
 
         public async Task DownloadFileAsync(string url, string filename)
         {
-            await _client.DownloadFileTaskAsync(url, filename);
-            _progress.Report(new AsyncDownloadProgress(100, 100, true));
+            try
+            {
+                await _client.DownloadFileTaskAsync(url, filename);
+                _progress.Report(new AsyncDownloadProgress(100, 100, true));
+            }
+            catch (WebException ex) when (ex.Status == WebExceptionStatus.RequestCanceled)
+            {
+                // That's completely fine. Don't to anything
+                // https://stackoverflow.com/questions/55870469/webexception-when-calling-webclient-cancelasync-on-await-downloadtaskasync
+            }
         }
 
         public async Task CancelAsync()
