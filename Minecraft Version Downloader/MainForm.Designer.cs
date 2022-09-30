@@ -104,7 +104,7 @@ namespace Minecraft_Server_Downloader
 	        this.otherCheckBox.AutoSize = true;
 	        this.otherCheckBox.Checked = true;
 	        this.otherCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-	        this.otherCheckBox.Location = new System.Drawing.Point(124, 17);
+	        this.otherCheckBox.Location = new System.Drawing.Point(146, 17);
 	        this.otherCheckBox.Margin = new System.Windows.Forms.Padding(2);
 	        this.otherCheckBox.Name = "otherCheckBox";
 	        this.otherCheckBox.Size = new System.Drawing.Size(53, 15);
@@ -119,7 +119,7 @@ namespace Minecraft_Server_Downloader
 	        this.snapshotCheckBox.AutoSize = true;
 	        this.snapshotCheckBox.Checked = true;
 	        this.snapshotCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-	        this.snapshotCheckBox.Location = new System.Drawing.Point(61, 17);
+	        this.snapshotCheckBox.Location = new System.Drawing.Point(70, 17);
 	        this.snapshotCheckBox.Margin = new System.Windows.Forms.Padding(2);
 	        this.snapshotCheckBox.Name = "snapshotCheckBox";
 	        this.snapshotCheckBox.Size = new System.Drawing.Size(72, 15);
